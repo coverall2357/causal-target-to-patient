@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "causal-target-to-patient"
+version = "0.1.0"
+description = "Causal methods across therapeutic discovery and development"
+requires-python = ">=3.12"
+dependencies = [
+    "pandas",
+    "sqlalchemy",
+    "psycopg2",
+    "python-dotenv",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
