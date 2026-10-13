@@ -1,0 +1,11 @@
+name,target_chembl_id,target_pref_name,gene_symbols,source
+tll-018,CHEMBL2835,Tyrosine-protein kinase JAK1,JAK1,https://clinicaltrials.gov/study/NCT06020144
+tll-018,CHEMBL3553,Non-receptor tyrosine-protein kinase TYK2,TYK2,https://clinicaltrials.gov/study/NCT06020144
+telitacicept,CHEMBL2364158,Tumor necrosis factor ligand superfamily member 13B,TNFSF13B,https://clinicaltrials.gov/study/NCT02882087
+telitacicept,CHEMBL3713436,Tumor necrosis factor ligand superfamily member 13,TNFSF13,https://clinicaltrials.gov/study/NCT02882087
+suciraslimab,GENE:CD22,B-cell receptor CD22,CD22,https://www.medchemexpress.com/suciraslimab.html
+amg 108,CHEMBL1959,Interleukin-1 receptor type 1,IL1R1,https://pmc.ncbi.nlm.nih.gov/articles/PMC2991028
+fletikumab,GENE:IL20,Interleukin-20,IL20,https://clinicaltrials.gov/study/NCT01636843
+resomelagon,GENE:MCR,Melanocortin receptors (subtypes not confirmed in sources),,https://acrabstracts.org/abstract/efficacy-and-safety-of-the-biased-melanocortin-receptor-agonist-ap1189-resomelagon-in-combination-with-methotrexate-in-dmard-naive-rheumatoid-arthritis-patients-the-expand-trial/
+natrunix,GENE:IL1A,Interleukin-1 alpha,IL1A,https://www.biospace.com/xbiotech-announces-first-patient-begins-novel-natrunix-therapy-in-phase-ii-rheumatoid-arthritis-ra-clinical-trial (company claim)
+nkx019,GENE:CD19,B-lymphocyte antigen CD19,CD19,https://www.bioworld.com/articles/726064-nkx-019-induces-cd19-depletion-in-autoimmune-disease

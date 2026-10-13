@@ -44,6 +44,10 @@ _PREFIX = re.compile(
 )
 
 
+# A component that is only a dose, left over from a comma list.
+_DOSE_ONLY = re.compile(r"\d+(\.\d+)?\s*(mg/kg|mg|mcg|µg|ug|g|ml|iu|units?)", re.IGNORECASE)
+
+
 def _clean(text: str) -> str:
     text = _SYMBOLS.sub("", text)
     previous = None
@@ -91,7 +95,7 @@ def name_variants(raw: str) -> list[list[str]]:
     components = []
     for part in _COMBINATION.split(base):
         part = _clean(part)
-        if not part:
+        if not part or _DOSE_ONLY.fullmatch(part):
             continue
         variants = _spellings(part)
         for alt in alternatives:
@@ -223,6 +227,38 @@ def lookup_component(variants: list[str], client) -> tuple[dict | None, str | No
     return (hit, variants[0]) if hit else (None, None)
 
 
+def _apply_override(key: str, maps_to) -> list[tuple]:
+    """Expand one override into (kind, value, via) entries.
+
+    kind is "exclude", "id" (a ChEMBL molecule ID), or "lookup" (search variants).
+    """
+    value = str(maps_to).strip()
+    if value.upper() == "EXCLUDE":
+        return [("exclude", None, f"override:{key}")]
+    if re.fullmatch(r"CHEMBL\d+", value.upper()):
+        return [("id", value.upper(), "override:id")]
+    return [("lookup", variants, "alias:") for variants in name_variants(value)]
+
+
+def resolve_components(raw: str, overrides: dict[str, str]) -> list[tuple]:
+    """Resolve an intervention name into components, applying overrides.
+
+    Overrides match the whole lower-case name, or any single component after
+    cleaning: "rc18 160 mg plus mtx" uses the overrides for "rc18" and "mtx".
+    """
+    key = raw.strip().lower()
+    if key in overrides:
+        return _apply_override(key, overrides[key])
+    out = []
+    for variants in name_variants(raw):
+        component_key = variants[0]
+        if component_key in overrides:
+            out += _apply_override(component_key, overrides[component_key])
+        else:
+            out.append(("lookup", variants, ""))
+    return out
+
+
 def map_names(
     names: list[str],
     client: ChemblClient,
@@ -231,34 +267,80 @@ def map_names(
 ) -> pd.DataFrame:
     """Map intervention names to molecules, one row per name component.
 
-    `overrides` maps a lower-case raw name to one of:
+    `overrides` maps a lower-case name (whole, or one cleaned component) to:
         a ChEMBL molecule ID   used directly ("CHEMBL1201580")
         EXCLUDE                not a therapeutic (imaging agent, vaccine, ...)
         any other text         a name to look up instead ("mtx" -> "methotrexate")
-    Unmatched components get a row with an empty molecule ID.
+    Each row records `lookup_name`, the cleaned name searched for, which manual
+    mechanisms can key on. Unmatched components get an empty molecule ID.
     """
     overrides = overrides or {}
     rows = []
     for raw in tqdm(names, desc="Matching names", disable=not progress):
         key = raw.strip().lower()
-        target = str(overrides.get(key, raw)).strip()
-        if target.upper() == "EXCLUDE":
-            rows.append({"intervention_key": key, "component": 0,
-                         "matched_on": "override:EXCLUDE", "excluded": True})
-            continue
-        if re.fullmatch(r"CHEMBL\d+", target.upper()):
-            rows.append({"intervention_key": key, "component": 0,
-                         "matched_on": "override:id", "excluded": False,
-                         "molecule_chembl_id": target.upper(),
-                         "parent_chembl_id": target.upper()})
-            continue
-        via = "alias:" if key in overrides else ""
-        for i, variants in enumerate(name_variants(target)):
-            hit, matched = lookup_component(variants, client)
-            rows.append({"intervention_key": key, "component": i,
-                         "matched_on": f"{via}{matched}" if matched else None,
-                         "excluded": False, **(hit or {})})
+        for i, (kind, value, via) in enumerate(resolve_components(raw, overrides)):
+            row = {"intervention_key": key, "component": i, "excluded": False}
+            if kind == "exclude":
+                row.update(matched_on=via, excluded=True)
+            elif kind == "id":
+                row.update(matched_on=via, molecule_chembl_id=value, parent_chembl_id=value)
+            else:
+                hit, matched = lookup_component(value, client)
+                row.update(lookup_name=value[0],
+                           matched_on=f"{via}{matched}" if matched else None,
+                           **(hit or {}))
+            rows.append(row)
     return pd.DataFrame(rows)
+
+
+def apply_manual_mechanisms(
+    molecules: pd.DataFrame, targets: pd.DataFrame, manual: pd.DataFrame
+) -> tuple[pd.DataFrame, pd.DataFrame]:
+    """Add curated mechanisms where ChEMBL has none.
+
+    `manual` columns: name, target_chembl_id, target_pref_name, gene_symbols,
+    source. `name` matches a component's lookup_name or the molecule's ChEMBL
+    preferred name, case-insensitively. Used only when ChEMBL records no
+    mechanism for the component.
+
+    Returns molecules with a `mechanism_key` column (the parent ChEMBL ID, or
+    "MANUAL:<name>" for components ChEMBL lacks) and targets extended with the
+    manual rows under the same key, each marked with mechanism_source.
+    """
+    molecules = molecules.copy()
+    targets = targets.copy()
+    if "mechanism_source" not in targets:
+        targets["mechanism_source"] = "chembl"
+    for col in ("lookup_name", "molecule_pref_name", "parent_chembl_id"):
+        if col not in molecules:
+            molecules[col] = None
+    manual = manual.copy()
+    manual["name"] = manual["name"].str.strip().str.lower()
+    manual_names = set(manual["name"])
+    has_mechanism = set(targets.parent_chembl_id) if len(targets) else set()
+
+    keys, added = [], []
+    for row in molecules.itertuples(index=False):
+        parent = row.parent_chembl_id if isinstance(row.parent_chembl_id, str) else None
+        candidates = [str(n).strip().lower() for n in (row.lookup_name, row.molecule_pref_name)
+                      if isinstance(n, str)]
+        manual_name = next((n for n in candidates if n in manual_names), None)
+        if parent in has_mechanism or manual_name is None:
+            keys.append(parent)
+            continue
+        key = parent or f"MANUAL:{manual_name}"
+        keys.append(key)
+        for m in manual[manual["name"] == manual_name].itertuples(index=False):
+            added.append({"parent_chembl_id": key, "mechanism_of_action": None,
+                          "action_type": None, "target_chembl_id": m.target_chembl_id,
+                          "target_pref_name": m.target_pref_name, "target_type": None,
+                          "gene_symbols": m.gene_symbols,
+                          "mechanism_source": f"manual: {m.source}"})
+    molecules["mechanism_key"] = keys
+    if added:
+        targets = pd.concat([targets, pd.DataFrame(added)], ignore_index=True)
+        targets = targets.drop_duplicates(["parent_chembl_id", "target_chembl_id"])
+    return molecules, targets
 
 
 def map_targets(

@@ -12,6 +12,8 @@ Curated inputs (committed, edited by hand):
                                                or EXCLUDE
     curated/trials/excluded_therapies.csv      conventional and symptomatic
                                                therapies never counted as tested
+    curated/trials/manual_mechanisms.csv       targets, with sources, for molecules
+                                               ChEMBL lacks or has no mechanism for
 
 Usage:
     python scripts/map_ra_interventions.py --data-dir ../causal-data/aact
@@ -23,6 +25,7 @@ from pathlib import Path
 import pandas as pd
 
 from causal_target_to_patient.sources.chembl import (
+    apply_manual_mechanisms,
     ChemblClient,
     classify_target_contrast,
     flag_excluded_therapies,
@@ -34,6 +37,7 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 CURATED = REPO_ROOT / "curated" / "trials"
 OVERRIDES = CURATED / "intervention_overrides.csv"
 EXCLUDED = CURATED / "excluded_therapies.csv"
+MANUAL = CURATED / "manual_mechanisms.csv"
 
 
 
@@ -68,32 +72,36 @@ def main():
         client.save()
 
     molecules["excluded_therapy"] = flag_excluded_therapies(molecules, excluded_names)
+    no_mechanism = set(parents) - set(targets.parent_chembl_id) if len(targets) else set(parents)
+    molecules, targets = apply_manual_mechanisms(molecules, targets, pd.read_csv(MANUAL))
 
     # One row per intervention-target pair, for the contrast.
     pairs = (
         interventions[["nct_id", "intervention_key", "role"]]
-        .merge(molecules[["intervention_key", "parent_chembl_id", "excluded_therapy"]],
+        .merge(molecules[["intervention_key", "mechanism_key", "excluded_therapy"]],
                on="intervention_key", how="left")
-        .merge(targets[["parent_chembl_id", "target_chembl_id"]],
-               on="parent_chembl_id", how="left")
+        .merge(targets[["parent_chembl_id", "target_chembl_id"]]
+               .rename(columns={"parent_chembl_id": "mechanism_key"}),
+               on="mechanism_key", how="left")
     )
     contrasts = classify_target_contrast(pairs).merge(
         trials[["nct_id", "trial_set", "phase"]], on="nct_id", how="left"
     )
 
     excluded_name = molecules.excluded.astype("boolean").fillna(False).astype(bool)
-    unmatched = molecules[molecules.molecule_chembl_id.isna() & ~excluded_name]
+    # Resolved: a ChEMBL molecule, a manual mechanism, or an explicit exclusion.
+    resolved = molecules.mechanism_key.notna() | excluded_name
+    unmatched = molecules[~resolved]
     unmatched_counts = (
         to_map[to_map.intervention_key.isin(unmatched.intervention_key)]
         .groupby("intervention_key").nct_id.nunique()
         .sort_values(ascending=False).rename("n_trials").reset_index()
     )
-    no_mechanism = set(parents) - set(targets.parent_chembl_id) if len(targets) else set(parents)
-
-    matched_names = molecules.groupby("intervention_key").molecule_chembl_id.apply(
-        lambda s: s.notna().all())
-    print(f"\nNames fully matched: {matched_names.sum()} of {len(matched_names)}")
-    print(f"Molecules with no recorded mechanism: {len(no_mechanism)}")
+    fully_resolved = resolved.groupby(molecules.intervention_key).all()
+    print(f"\nNames fully resolved: {fully_resolved.sum()} of {len(fully_resolved)}")
+    print(f"Molecules with no ChEMBL mechanism: {len(no_mechanism)}")
+    print(f"Components given a manual mechanism: "
+          f"{int(molecules.mechanism_key.isin(targets.loc[targets.mechanism_source != 'chembl', 'parent_chembl_id']).sum())}")
     print(f"Name components on the excluded list: {int(molecules.excluded_therapy.sum())}")
     print("\nContrast class by trial set:\n",
           pd.crosstab(contrasts.contrast_class, contrasts.trial_set, margins=True).to_string())

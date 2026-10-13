@@ -35,3 +35,12 @@ glucocorticoid,EXCLUDE,drug class
 active comparator,EXCLUDE,unspecified comparator
 seasonal influenza vaccine,EXCLUDE,vaccine
 kunxian capsule,EXCLUDE,herbal preparation; no defined molecular target
+rc18,telitacicept,RemeGen development code; https://clinicaltrials.gov/study/NCT02882087
+sm03,suciraslimab,SinoMab development code; https://www.medchemexpress.com/suciraslimab.html
+nnc109-0012,fletikumab,Novo Nordisk anti-IL-20; https://www.selleckchem.com/products/fletikumab-anti-il-20.html
+ap1189,resomelagon,SynAct development code; https://www.inderes.dk/en/releases/synact-pharma-introduces-resomelagon-as-generic-name-for-ap1189
+hzt-501,ibuprofen + famotidine,Horizon fixed-dose combination; https://clinicaltrials.gov/study/NCT00613106
+pred,prednisone,"ambiguous (prednisone or prednisolone); both excluded, so the outcome is the same"
+nc-503 (anti-amyloidotic (aa) agent),EXCLUDE,"eprodisate, treats AA amyloidosis not RA activity; https://clinicaltrials.gov/study/NCT00035334"
+nc-503,EXCLUDE,"eprodisate, treats AA amyloidosis not RA activity; https://clinicaltrials.gov/study/NCT00035334"
+mm-093,EXCLUDE,"recombinant alpha-fetoprotein, no defined molecular target; https://clinicaltrials.gov/study/NCT00105976"

@@ -224,3 +224,46 @@ def test_fallback_excluded_therapy_acts_as_control():
 
 def test_quoted_names_cleaned():
     assert name_variants('"baricitinib", "olumiant®"')[0][0] == "baricitinib"
+
+
+def test_dose_only_component_dropped():
+    assert [c[0] for c in name_variants("AP1189, 100 mg")] == ["ap1189"]
+
+
+def test_component_level_overrides():
+    from causal_target_to_patient.sources.chembl import resolve_components
+
+    overrides = {"rc18": "telitacicept", "mtx": "methotrexate", "mm-093": "EXCLUDE"}
+    resolved = resolve_components("RC18 160 mg plus MTX", overrides)
+    assert [(k, v[0], via) for k, v, via in resolved] == [
+        ("lookup", "telitacicept", "alias:"), ("lookup", "methotrexate", "alias:")]
+    assert resolve_components("MM-093", overrides) == [("exclude", None, "override:mm-093")]
+
+
+def test_apply_manual_mechanisms():
+    from causal_target_to_patient.sources.chembl import apply_manual_mechanisms
+
+    molecules = pd.DataFrame({
+        "intervention_key": ["tofacitinib", "tll-018", "natrunix", "old drug"],
+        "lookup_name": ["tofacitinib", "tll-018", "natrunix", "old drug"],
+        "molecule_pref_name": ["TOFACITINIB", None, "NATRUNIX", "OLDDRUG"],
+        "parent_chembl_id": ["P_TOFA", None, "P_NAT", "P_OLD"],
+    })
+    targets = pd.DataFrame({"parent_chembl_id": ["P_TOFA"], "target_chembl_id": ["JAK1"],
+                            "target_pref_name": ["JAK1"], "gene_symbols": ["JAK1"]})
+    manual = pd.DataFrame({
+        "name": ["TLL-018", "tll-018", "natrunix", "tofacitinib"],
+        "target_chembl_id": ["JAK1", "TYK2", "GENE:IL1A", "SHOULD_NOT_APPLY"],
+        "target_pref_name": ["JAK1", "TYK2", "IL-1a", "x"],
+        "gene_symbols": ["JAK1", "TYK2", "IL1A", "x"],
+        "source": ["s1", "s1", "s2", "s3"],
+    })
+    mol, tgt = apply_manual_mechanisms(molecules, targets, manual)
+    keys = dict(zip(mol.intervention_key, mol.mechanism_key))
+    assert keys == {"tofacitinib": "P_TOFA", "tll-018": "MANUAL:tll-018",
+                    "natrunix": "P_NAT", "old drug": "P_OLD"}
+    by_key = tgt.groupby("parent_chembl_id").target_chembl_id.apply(set).to_dict()
+    assert by_key["MANUAL:tll-018"] == {"JAK1", "TYK2"}
+    assert by_key["P_NAT"] == {"GENE:IL1A"}            # ChEMBL molecule, no mechanism
+    assert by_key["P_TOFA"] == {"JAK1"}                # ChEMBL mechanism kept, manual ignored
+    assert set(tgt.loc[tgt.parent_chembl_id == "P_NAT", "mechanism_source"]) == {"manual: s2"}
