@@ -8,6 +8,7 @@ Free accounts: https://aact.ctti-clinicaltrials.org/users/sign_up
 """
 
 import os
+import re
 
 import pandas as pd
 from dotenv import load_dotenv
@@ -56,6 +57,20 @@ ONGOING_STATUSES = (
 # A study qualifies if at least one intervention is a drug or biologic. Studies
 # also listing OTHER are kept, because placebo is often coded as OTHER.
 THERAPEUTIC_INTERVENTION_TYPES = ("DRUG", "BIOLOGICAL")
+
+# Arm types that mark an intervention as given to the control group. AACT's
+# coding has changed over time ("Active Comparator" vs "ACTIVE_COMPARATOR"),
+# so arm types are normalised to upper case with underscores before matching.
+EXPERIMENTAL_ARM_TYPES = ("EXPERIMENTAL",)
+COMPARATOR_ARM_TYPES = (
+    "ACTIVE_COMPARATOR",
+    "PLACEBO_COMPARATOR",
+    "SHAM_COMPARATOR",
+    "NO_INTERVENTION",
+)
+
+# Inactive controls: placebo or placebos, vehicle, and sham.
+PLACEBO_PATTERN = re.compile(r"\b(placebos?|vehicle|sham)\b", re.IGNORECASE)
 
 
 def _sql_list(values: tuple[str, ...]) -> str:
@@ -133,12 +148,122 @@ def pull_ra_trials(engine: Engine) -> pd.DataFrame:
     return trials
 
 
+def assign_intervention_role(
+    name: str, in_experimental: bool, in_comparator: bool
+) -> str:
+    """Classify an intervention's role in its trial from the arms it appears in.
+
+    investigational: experimental arms only, the therapeutic being tested.
+    background:      experimental and comparator arms, given to everyone.
+    comparator:      comparator arms only, the active control.
+    unassigned:      not linked to an experimental or comparator arm.
+    placebo:         an inactive control (placebo, vehicle, sham), whatever its arms.
+    """
+    if PLACEBO_PATTERN.search(name):
+        return "placebo"
+    if in_experimental and in_comparator:
+        return "background"
+    if in_experimental:
+        return "investigational"
+    if in_comparator:
+        return "comparator"
+    return "unassigned"
+
+
+# Normalised arm type, e.g. "Active Comparator" -> "ACTIVE_COMPARATOR".
+_ARM_TYPE_SQL = "UPPER(REPLACE(dg.group_type, ' ', '_'))"
+
+
 def pull_ra_trial_interventions(engine: Engine) -> pd.DataFrame:
-    """Return drug and biologic interventions of eligible RA trials, one row each."""
-    return query(engine, ELIGIBLE_CTE + f"""
-        SELECT i.nct_id, i.intervention_type, i.name AS intervention_name
+    """Return drug and biologic interventions of eligible RA trials with their role.
+
+    One row per intervention, with flags for the arm types it appears in and
+    a role from assign_intervention_role.
+    """
+    interventions = query(engine, ELIGIBLE_CTE + f"""
+        , arms AS (
+            SELECT dgi.intervention_id, {_ARM_TYPE_SQL} AS arm_type
+            FROM ctgov.design_group_interventions dgi
+            JOIN ctgov.design_groups dg ON dg.id = dgi.design_group_id
+        )
+        SELECT i.id AS intervention_id, i.nct_id, i.intervention_type,
+               i.name AS intervention_name,
+               COALESCE(BOOL_OR(a.arm_type IN ({_sql_list(EXPERIMENTAL_ARM_TYPES)})),
+                        FALSE) AS in_experimental,
+               COALESCE(BOOL_OR(a.arm_type IN ({_sql_list(COMPARATOR_ARM_TYPES)})),
+                        FALSE) AS in_comparator
         FROM eligible
         JOIN ctgov.interventions i USING (nct_id)
+        LEFT JOIN arms a ON a.intervention_id = i.id
         WHERE i.intervention_type IN ({_sql_list(THERAPEUTIC_INTERVENTION_TYPES)})
+        GROUP BY i.id, i.nct_id, i.intervention_type, i.name
         ORDER BY i.nct_id, i.name
     """)
+    interventions["role"] = [
+        assign_intervention_role(n, e, c)
+        for n, e, c in zip(
+            interventions.intervention_name,
+            interventions.in_experimental,
+            interventions.in_comparator,
+        )
+    ]
+    return interventions
+
+
+def pull_ra_trial_arms(engine: Engine) -> pd.DataFrame:
+    """Return arm counts per eligible RA trial: total, experimental, comparator."""
+    return query(engine, ELIGIBLE_CTE + f"""
+        SELECT e.nct_id,
+               COUNT(dg.id) AS n_arms,
+               COUNT(dg.id) FILTER (
+                   WHERE {_ARM_TYPE_SQL} IN ({_sql_list(EXPERIMENTAL_ARM_TYPES)})
+               ) AS n_experimental_arms,
+               COUNT(dg.id) FILTER (
+                   WHERE {_ARM_TYPE_SQL} IN ({_sql_list(COMPARATOR_ARM_TYPES)})
+               ) AS n_comparator_arms
+        FROM eligible e
+        LEFT JOIN ctgov.design_groups dg ON dg.nct_id = e.nct_id
+        GROUP BY e.nct_id
+        ORDER BY e.nct_id
+    """)
+
+
+def flag_trials_for_review(
+    interventions: pd.DataFrame, arms: pd.DataFrame
+) -> pd.DataFrame:
+    """Add investigational counts and a review flag to the per-trial arm table.
+
+    Flagged trials: no investigational intervention (nothing identified as
+    tested), or several investigational interventions with no comparator arm
+    (background therapy may be mislabelled as investigational).
+    """
+    n_inv = (
+        interventions[interventions.role == "investigational"]
+        .groupby("nct_id").size().rename("n_investigational")
+    )
+    out = arms.merge(n_inv, on="nct_id", how="left")
+    out["n_investigational"] = out.n_investigational.fillna(0).astype(int)
+    out["needs_review"] = (out.n_investigational == 0) | (
+        (out.n_investigational > 1) & (out.n_comparator_arms == 0)
+    )
+    return out
+
+
+def apply_candidate_fallback(
+    interventions: pd.DataFrame, flagged_arms: pd.DataFrame
+) -> pd.DataFrame:
+    """Mark non-placebo interventions as candidates in trials with no investigational one.
+
+    Arm records are missing or uninformative in these trials (no arms, all arms
+    coded as comparators, or the same drug in every arm). Their interventions
+    become candidates, and the target contrast decides what the trial tests.
+    The arm-based role is kept in `arm_role` for traceability.
+    """
+    no_investigational = set(
+        flagged_arms.loc[flagged_arms.n_investigational == 0, "nct_id"]
+    )
+    out = interventions.copy()
+    out["arm_role"] = out.role
+    mask = out.nct_id.isin(no_investigational) & (out.role != "placebo")
+    out.loc[mask, "role"] = "candidate"
+    return out

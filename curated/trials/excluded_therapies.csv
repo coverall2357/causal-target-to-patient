@@ -1,0 +1,27 @@
+molecule_pref_name,category,reason
+METHOTREXATE,csDMARD,anchor therapy; ChEMBL target (DHFR) is not its accepted mechanism in RA
+HYDROXYCHLOROQUINE,csDMARD,diffuse or unclear mechanism
+SULFASALAZINE,csDMARD,diffuse or unclear mechanism
+LEFLUNOMIDE,csDMARD,conventional background therapy
+AZATHIOPRINE,csDMARD,diffuse mechanism
+CYCLOSPORINE,csDMARD,conventional background therapy
+AURANOFIN,csDMARD,diffuse or unclear mechanism
+FOLIC ACID,supportive,given with methotrexate
+LEUCOVORIN,supportive,given with methotrexate
+PREDNISONE,glucocorticoid,broad anti-inflammatory; not target-specific in RA
+PREDNISOLONE,glucocorticoid,broad anti-inflammatory; not target-specific in RA
+METHYLPREDNISOLONE,glucocorticoid,broad anti-inflammatory; not target-specific in RA
+DEXAMETHASONE,glucocorticoid,broad anti-inflammatory; not target-specific in RA
+HYDROCORTISONE,glucocorticoid,broad anti-inflammatory; not target-specific in RA
+ETORICOXIB,NSAID,symptomatic
+CELECOXIB,NSAID,symptomatic
+DICLOFENAC,NSAID,symptomatic
+NAPROXEN,NSAID,symptomatic
+IBUPROFEN,NSAID,symptomatic
+MELOXICAM,NSAID,symptomatic
+ACETAMINOPHEN,analgesic,symptomatic
+ESOMEPRAZOLE,gastroprotective,supportive
+FAMOTIDINE,gastroprotective,supportive
+RABEPRAZOLE,gastroprotective,supportive
+REBAMIPIDE,gastroprotective,supportive
+BUPRENORPHINE,analgesic,symptomatic
