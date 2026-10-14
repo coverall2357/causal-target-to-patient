@@ -187,6 +187,26 @@ class ChemblClient:
         # Several forms can carry the same mechanism; keep one of each.
         return [dict(t) for t in dict.fromkeys(tuple(r.items()) for r in rows)]
 
+    def drug_indications(self, **filters) -> list[dict]:
+        """All drug-indication records matching filters, following pagination."""
+        records, offset = [], 0
+        while True:
+            data = self._get("drug_indication", {**filters, "limit": 1000, "offset": offset})
+            batch = data.get("drug_indications", [])
+            records += batch
+            meta = data.get("page_meta") or {}
+            if not batch or not meta.get("next"):
+                return records
+            offset += len(batch)
+
+    def molecule(self, chembl_id: str) -> dict:
+        """One molecule record: preferred name and parent."""
+        m = self._get(f"molecule/{chembl_id}")
+        parent = (m.get("molecule_hierarchy") or {}).get("parent_chembl_id")
+        return {"molecule_chembl_id": chembl_id,
+                "parent_chembl_id": parent or chembl_id,
+                "molecule_pref_name": m.get("pref_name")}
+
     def target(self, target_chembl_id: str) -> dict:
         """Target name, type, and gene symbols of its components."""
         t = self._get(f"target/{target_chembl_id}")
@@ -382,11 +402,35 @@ def flag_excluded_therapies(
     return by_override | by_list
 
 
+# Rheumatoid arthritis in ChEMBL's indication records.
+RA_INDICATION_FILTERS = ({"mesh_id": "D001172"}, {"efo_id": "EFO_0000685"})
+
+
+def ra_indication_molecules(client, min_phase: float = 2) -> pd.DataFrame:
+    """Parent molecules with an RA indication at or above min_phase, one row each.
+
+    Queries by MeSH and EFO identifiers, keeps the highest phase per parent.
+    """
+    rows = []
+    for filters in RA_INDICATION_FILTERS:
+        for rec in client.drug_indications(**filters):
+            phase = pd.to_numeric(rec.get("max_phase_for_ind"), errors="coerce")
+            parent = rec.get("parent_molecule_chembl_id") or rec.get("molecule_chembl_id")
+            if parent and pd.notna(phase) and phase >= min_phase:
+                rows.append({"parent_chembl_id": parent, "max_phase_for_ra": float(phase)})
+    if not rows:
+        return pd.DataFrame(columns=["parent_chembl_id", "max_phase_for_ra"])
+    return (pd.DataFrame(rows).groupby("parent_chembl_id").max_phase_for_ra.max()
+            .reset_index())
+
+
 TEST_ROLES = ("investigational", "candidate")
 CONTROL_ROLES = ("comparator", "background")
 
 
-def classify_target_contrast(rows: pd.DataFrame) -> pd.DataFrame:
+def classify_target_contrast(
+    rows: pd.DataFrame, controlled_trials: set[str] | None = None
+) -> pd.DataFrame:
     """Classify what each trial tests at the target level.
 
     `rows`: one row per intervention-target pair, with columns nct_id,
@@ -399,11 +443,18 @@ def classify_target_contrast(rows: pd.DataFrame) -> pd.DataFrame:
         head_to_head        fallback trial comparing distinct targets
         same_target         every arm acts on the same targets (biosimilar,
                             dose, formulation, tapering, strategy)
-        single_intervention fallback trial, one tested therapeutic, no placebo
+        single_intervention fallback trial, one tested therapeutic, no placebo,
+                            and no evidence of a control arm
         excluded_therapy    every tested therapeutic is on the excluded list
         unmapped            no tested intervention mapped to a target
         no_test             no tested intervention at all
+
+    `controlled_trials`: trials whose arm records show a control (two or more
+    arms, at least one a comparator arm). A fallback trial with one tested
+    therapeutic counts as a target contrast if it is in this set: the control
+    arm existed, its intervention just wasn't listed.
     """
+    controlled_trials = controlled_trials or set()
     rows = rows.copy()
     if "excluded_therapy" not in rows:
         rows["excluded_therapy"] = False
@@ -440,6 +491,8 @@ def classify_target_contrast(rows: pd.DataFrame) -> pd.DataFrame:
                 cls, contrast = "target_contrast", test_targets
             elif n_therapeutics > 1:
                 cls, contrast = "same_target", set()
+            elif nct_id in controlled_trials:
+                cls, contrast = "target_contrast", test_targets
             else:
                 cls, contrast = "single_intervention", test_targets
         else:

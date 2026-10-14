@@ -1,0 +1,52 @@
+gene_symbol,mechanism,target_component
+TNF,TNF,ligand
+IL6,IL-6 pathway,ligand
+IL6R,IL-6 pathway,receptor
+IL6ST,IL-6 pathway,receptor
+MS4A1,CD20 B-cell depletion,cell-surface antigen
+CD80,CD80/CD86 co-stimulation,ligand
+CD86,CD80/CD86 co-stimulation,ligand
+JAK1,JAK family,signalling
+JAK2,JAK family,signalling
+JAK3,JAK family,signalling
+TYK2,JAK family,signalling
+IL1A,IL-1 pathway,ligand
+IL1B,IL-1 pathway,ligand
+IL1R1,IL-1 pathway,receptor
+IL17A,IL-17 pathway,ligand
+IL17F,IL-17 pathway,ligand
+IL17RA,IL-17 pathway,receptor
+IL12B,IL-12/IL-23 pathway,ligand
+IL23A,IL-12/IL-23 pathway,ligand
+CSF2,GM-CSF pathway,ligand
+CSF2RA,GM-CSF pathway,receptor
+CSF2RB,GM-CSF pathway,receptor
+IL20,IL-20,ligand
+TNFSF13B,BAFF/APRIL,ligand
+TNFSF13,BAFF/APRIL,ligand
+ICOSLG,ICOS-ICOSL,ligand
+CD40,CD40-CD40L pathway,receptor
+CD40LG,CD40-CD40L pathway,ligand
+PDCD1,PD-1,receptor
+FCGRT,FcRn,receptor
+CCL2,CCL2-CCR2 axis,ligand
+CCR2,CCL2-CCR2 axis,receptor
+ROCK1,ROCK,signalling
+ROCK2,ROCK,signalling
+PDE4A,PDE4,enzyme
+PDE4B,PDE4,enzyme
+PDE4C,PDE4,enzyme
+PDE4D,PDE4,enzyme
+PDGFRA,PDGFR,receptor
+PDGFRB,PDGFR,receptor
+LTA,Lymphotoxin,ligand
+LTB,Lymphotoxin,ligand
+MAPK14,p38 MAPK,signalling
+CDH11,Cadherin-11,cell-surface
+ITGA9,Integrin alpha-9,cell-surface
+MAPK11,p38 MAPK,signalling
+TNFRSF13C,BAFF/APRIL,receptor
+IL2,IL-2 pathway,ligand
+IL2RA,IL-2 pathway,receptor
+IL2RB,IL-2 pathway,receptor
+IL2RG,IL-2 pathway,receptor

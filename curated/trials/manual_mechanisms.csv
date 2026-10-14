@@ -9,3 +9,6 @@ fletikumab,GENE:IL20,Interleukin-20,IL20,https://clinicaltrials.gov/study/NCT016
 resomelagon,GENE:MCR,Melanocortin receptors (subtypes not confirmed in sources),,https://acrabstracts.org/abstract/efficacy-and-safety-of-the-biased-melanocortin-receptor-agonist-ap1189-resomelagon-in-combination-with-methotrexate-in-dmard-naive-rheumatoid-arthritis-patients-the-expand-trial/
 natrunix,GENE:IL1A,Interleukin-1 alpha,IL1A,https://www.biospace.com/xbiotech-announces-first-patient-begins-novel-natrunix-therapy-in-phase-ii-rheumatoid-arthritis-ra-clinical-trial (company claim)
 nkx019,GENE:CD19,B-lymphocyte antigen CD19,CD19,https://www.bioworld.com/articles/726064-nkx-019-induces-cd19-depletion-in-autoimmune-disease
+peresolimab,GENE:PDCD1,Programmed cell death protein 1 (agonist),PDCD1,https://doi.org/10.1007/s11926-025-01209-5
+cpl409116,CHEMBL2363062,Janus Kinase (JAK),JAK1;JAK2;JAK3;TYK2,"https://doi.org/10.1007/s11926-025-01209-5 (source says JAK, isoform not specified)"
+cpl409116,GENE:ROCK,Rho-associated protein kinase,ROCK1;ROCK2,"https://doi.org/10.1007/s11926-025-01209-5 (source says ROCK, isoform not specified)"

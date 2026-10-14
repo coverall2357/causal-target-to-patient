@@ -25,3 +25,19 @@ FAMOTIDINE,gastroprotective,supportive
 RABEPRAZOLE,gastroprotective,supportive
 REBAMIPIDE,gastroprotective,supportive
 BUPRENORPHINE,analgesic,symptomatic
+TOZINAMERAN,vaccine,COVID-19 mRNA vaccine; not an RA therapy
+STREPTOCOCCUS PNEUMONIAE POLYSACCHARIDE CONJUGATED TO CORYNEBACTERIUM DIPHTHERIAE CRM197,vaccine,pneumococcal conjugate vaccine; not an RA therapy
+TETANUS TOXOID,vaccine,not an RA therapy
+TRAMADOL,analgesic,opioid analgesic; symptomatic
+MECLOFENAMIC ACID,NSAID,symptomatic
+PENICILLAMINE,csDMARD,older conventional DMARD; diffuse mechanism
+TRIENTINE,csDMARD,copper chelator; diffuse mechanism
+MINOCYCLINE,csDMARD,antibiotic used as a DMARD; antibacterial targets only
+NALTREXONE,supportive,low-dose naltrexone for pain or fatigue; symptomatic
+ESZOPICLONE,supportive,hypnotic for sleep; symptomatic
+ALFACALCIDOL,supportive,vitamin D analogue; bone health
+ELDECALCITOL,supportive,vitamin D analogue; bone health
+ERGOCALCIFEROL,supportive,vitamin D; bone health
+FILGRASTIM,supportive,G-CSF for neutropenia
+COBIPROSTONE,supportive,gastrointestinal protection
+ENTECAVIR,supportive,hepatitis B prophylaxis

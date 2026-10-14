@@ -84,7 +84,9 @@ def main():
                .rename(columns={"parent_chembl_id": "mechanism_key"}),
                on="mechanism_key", how="left")
     )
-    contrasts = classify_target_contrast(pairs).merge(
+    # Arm records showing a control, for trials whose control intervention isn't listed.
+    controlled = set(trials.loc[(trials.n_arms >= 2) & (trials.n_comparator_arms >= 1), "nct_id"])
+    contrasts = classify_target_contrast(pairs, controlled).merge(
         trials[["nct_id", "trial_set", "phase"]], on="nct_id", how="left"
     )
 

@@ -267,3 +267,52 @@ def test_apply_manual_mechanisms():
     assert by_key["P_NAT"] == {"GENE:IL1A"}            # ChEMBL molecule, no mechanism
     assert by_key["P_TOFA"] == {"JAK1"}                # ChEMBL mechanism kept, manual ignored
     assert set(tgt.loc[tgt.parent_chembl_id == "P_NAT", "mechanism_source"]) == {"manual: s2"}
+
+
+class FakeIndicationClient:
+    """Two pages of indication records for one filter, nothing for the other."""
+
+    def __init__(self):
+        self.calls = []
+
+    def drug_indications(self, **filters):
+        self.calls.append(filters)
+        if "mesh_id" in filters:
+            return [
+                {"parent_molecule_chembl_id": "P1", "max_phase_for_ind": "4.0"},
+                {"parent_molecule_chembl_id": "P1", "max_phase_for_ind": "2.0"},
+                {"parent_molecule_chembl_id": "P2", "max_phase_for_ind": "1.0"},
+                {"molecule_chembl_id": "P3", "max_phase_for_ind": "2"},
+                {"parent_molecule_chembl_id": "P4", "max_phase_for_ind": None},
+            ]
+        return [{"parent_molecule_chembl_id": "P3", "max_phase_for_ind": "3.0"}]
+
+
+def test_ra_indication_molecules():
+    from causal_target_to_patient.sources.chembl import ra_indication_molecules
+
+    client = FakeIndicationClient()
+    out = ra_indication_molecules(client, min_phase=2).set_index("parent_chembl_id")
+    assert out.max_phase_for_ra.to_dict() == {"P1": 4.0, "P3": 3.0}   # P2 phase 1, P4 no phase
+    assert len(client.calls) == 2                                      # MeSH and EFO
+
+
+def test_drug_indications_pagination(tmp_path):
+    import json
+    from causal_target_to_patient.sources.chembl import ChemblClient
+
+    client = ChemblClient(tmp_path / "cache.json")
+    def key(offset):
+        return "drug_indication?" + json.dumps(
+            {"mesh_id": "D001172", "limit": 1000, "offset": offset}, sort_keys=True)
+    client.cache[key(0)] = {"drug_indications": [{"a": 1}, {"a": 2}],
+                            "page_meta": {"next": "/next"}}
+    client.cache[key(2)] = {"drug_indications": [{"a": 3}], "page_meta": {"next": None}}
+    assert [r["a"] for r in client.drug_indications(mesh_id="D001172")] == [1, 2, 3]
+
+
+def test_single_intervention_with_control_arm_is_contrast():
+    rows = _rows(("T", "efalizumab", "candidate", "LFA1"))
+    assert classify_target_contrast(rows).iloc[0].contrast_class == "single_intervention"
+    result = classify_target_contrast(rows, controlled_trials={"T"}).iloc[0]
+    assert (result.contrast_class, result.contrast_targets) == ("target_contrast", "LFA1")

@@ -44,3 +44,4 @@ pred,prednisone,"ambiguous (prednisone or prednisolone); both excluded, so the o
 nc-503 (anti-amyloidotic (aa) agent),EXCLUDE,"eprodisate, treats AA amyloidosis not RA activity; https://clinicaltrials.gov/study/NCT00035334"
 nc-503,EXCLUDE,"eprodisate, treats AA amyloidosis not RA activity; https://clinicaltrials.gov/study/NCT00035334"
 mm-093,EXCLUDE,"recombinant alpha-fetoprotein, no defined molecular target; https://clinicaltrials.gov/study/NCT00105976"
+mk0812 / duration of treatment: 12 weeks,MK-0812,ChEMBL lists MK-0812 (CCR2 antagonist) with a phase 2 RA indication
