@@ -194,8 +194,9 @@ def test_excluded_therapy_class():
 
     # Excluded background doesn't mask a real test.
     rows = _rows(("T", "drugx", "investigational", "X"),
-                 ("T", "methotrexate", "investigational", "DHFR"))
-    rows["excluded_therapy"] = [False, True]
+                 ("T", "methotrexate", "investigational", "DHFR"),
+                 ("T", "placebo", "placebo", None))
+    rows["excluded_therapy"] = [False, True, False]
     result = classify_target_contrast(rows).iloc[0]
     assert (result.contrast_class, result.contrast_targets) == ("target_contrast", "X")
 
@@ -316,3 +317,30 @@ def test_single_intervention_with_control_arm_is_contrast():
     assert classify_target_contrast(rows).iloc[0].contrast_class == "single_intervention"
     result = classify_target_contrast(rows, controlled_trials={"T"}).iloc[0]
     assert (result.contrast_class, result.contrast_targets) == ("target_contrast", "LFA1")
+
+
+@pytest.mark.parametrize(
+    "rows, controlled, expected_class, expected_targets",
+    [
+        # Single-arm or extension study: the drug alone.
+        (_rows(("T", "olokizumab q2w", "investigational", "IL6"),
+               ("T", "olokizumab q4w", "investigational", "IL6")),
+         set(), "uncontrolled", "IL6"),
+        # Same, with background methotrexate in the only arm.
+        (_rows(("T", "drugx", "investigational", "X"),
+               ("T", "methotrexate", "investigational", "DHFR")),
+         set(), "uncontrolled", "X"),
+        # Comparator arm in the arm records, its intervention not listed.
+        (_rows(("T", "drugx", "investigational", "X")),
+         {"T"}, "target_contrast", "X"),
+        # Two experimental arms with different mechanisms and no control.
+        (_rows(("T", "abatacept", "investigational", "CD80"),
+               ("T", "adalimumab", "investigational", "TNF")),
+         set(), "head_to_head", "CD80;TNF"),
+    ],
+)
+def test_trials_without_control(rows, controlled, expected_class, expected_targets):
+    if "methotrexate" in set(rows.intervention_key):
+        rows["excluded_therapy"] = rows.intervention_key == "methotrexate"
+    result = classify_target_contrast(rows, controlled_trials=controlled).iloc[0]
+    assert (result.contrast_class, result.contrast_targets) == (expected_class, expected_targets)

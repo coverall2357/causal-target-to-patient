@@ -84,3 +84,21 @@ def test_inactive_controls_are_placebo(name):
 def test_vehicular_names_not_placebo():
     # Word boundaries: an unrelated word containing "sham" is not a control.
     assert assign_intervention_role("Shampoo", True, False) == "investigational"
+
+
+@pytest.mark.parametrize(
+    "n_outcomes, n_p_values, n_pubs, why_stopped, expected",
+    [
+        (2, 1, 0, None, "primary analysis"),
+        (1, 0, 3, None, "primary results"),         # posted results beat publications
+        (0, 0, 1, "Lack of efficacy", "publication"),
+        (0, 0, 0, "Lack of efficacy", "stop reason"),
+        (0, 0, 0, float("nan"), "none"),            # missing why_stopped from CSV
+        (0, 0, 0, "  ", "none"),
+        (0, 2, 0, None, "none"),                    # p-values without an outcome: ignored
+    ],
+)
+def test_evidence_tier(n_outcomes, n_p_values, n_pubs, why_stopped, expected):
+    from causal_target_to_patient.sources.aact import evidence_tier
+
+    assert evidence_tier(n_outcomes, n_p_values, n_pubs, why_stopped) == expected

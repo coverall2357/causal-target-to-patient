@@ -445,14 +445,22 @@ def classify_target_contrast(
                             dose, formulation, tapering, strategy)
         single_intervention fallback trial, one tested therapeutic, no placebo,
                             and no evidence of a control arm
+        uncontrolled        arm-based trial with no control: no placebo, no
+                            comparator or background intervention, and no
+                            comparator arm (single-arm, extension, and
+                            uncontrolled dose studies)
         excluded_therapy    every tested therapeutic is on the excluded list
         unmapped            no tested intervention mapped to a target
         no_test             no tested intervention at all
 
     `controlled_trials`: trials whose arm records show a control (two or more
-    arms, at least one a comparator arm). A fallback trial with one tested
-    therapeutic counts as a target contrast if it is in this set: the control
-    arm existed, its intervention just wasn't listed.
+    arms, at least one a comparator arm). A trial with one tested therapeutic
+    counts as a target contrast if it is in this set: the control arm existed,
+    its intervention just wasn't listed.
+
+    A trial without any control is never a target contrast. If its tested
+    therapeutics act on different targets it is a head-to-head comparison;
+    otherwise it is uncontrolled (or single_intervention in fallback trials).
     """
     controlled_trials = controlled_trials or set()
     rows = rows.copy()
@@ -471,9 +479,15 @@ def classify_target_contrast(
             set(test.intervention_key) - set(mapped_test.intervention_key)
         )
         is_fallback = (trial.role == "candidate").any()
+        has_placebo = (trial.role == "placebo").any()
+        per_drug = {frozenset(g.target_chembl_id) for _, g in
+                    mapped_test.groupby("intervention_key")}
         # In fallback trials, a conventional therapy alongside the tested one
         # acts as the control ("new drug vs methotrexate").
-        has_control = (trial.role == "placebo").any() or all_test.excluded_therapy.any()
+        has_control = has_placebo or all_test.excluded_therapy.any()
+        # In arm-based trials, a control is a placebo, a comparator or
+        # background intervention, or a comparator arm in the arm records.
+        has_arm_control = has_placebo or not control.empty or nct_id in controlled_trials
 
         if all_test.empty:
             cls, contrast = "no_test", set()
@@ -483,8 +497,6 @@ def classify_target_contrast(
             cls, contrast = "unmapped", set()
         elif is_fallback:
             n_therapeutics = mapped_test.intervention_key.nunique()
-            per_drug = {frozenset(g.target_chembl_id) for _, g in
-                        mapped_test.groupby("intervention_key")}
             if len(per_drug) > 1:
                 cls, contrast = "head_to_head", test_targets
             elif has_control:
@@ -495,9 +507,13 @@ def classify_target_contrast(
                 cls, contrast = "target_contrast", test_targets
             else:
                 cls, contrast = "single_intervention", test_targets
-        else:
+        elif has_arm_control:
             contrast = test_targets - control_targets
             cls = "target_contrast" if contrast else "same_target"
+        elif len(per_drug) > 1:
+            cls, contrast = "head_to_head", test_targets
+        else:
+            cls, contrast = "uncontrolled", test_targets
 
         out.append({
             "nct_id": nct_id,

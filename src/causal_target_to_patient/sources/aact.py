@@ -104,10 +104,14 @@ def get_engine() -> Engine:
     return create_engine(url)
 
 
-def query(engine: Engine, sql: str) -> pd.DataFrame:
-    """Run a SQL query against AACT and return the result as a DataFrame."""
+def query(engine: Engine, sql: str, params: dict | None = None) -> pd.DataFrame:
+    """Run a SQL query against AACT and return the result as a DataFrame.
+
+    `params` binds named parameters in the SQL (":name"), e.g. a list of trial
+    IDs for "nct_id = ANY(:ids)".
+    """
     with engine.connect() as conn:
-        return pd.read_sql(text(sql), conn)
+        return pd.read_sql(text(sql), conn, params=params)
 
 
 def query_ra(engine: Engine, sql: str) -> pd.DataFrame:
@@ -267,3 +271,110 @@ def apply_candidate_fallback(
     mask = out.nct_id.isin(no_investigational) & (out.role != "placebo")
     out.loc[mask, "role"] = "candidate"
     return out
+
+
+# --- Outcome evidence ---------------------------------------------------------
+
+# Best available source for a trial's efficacy outcome, most structured first.
+EVIDENCE_TIERS = (
+    "primary analysis",  # posted primary outcome with a statistical test (p-value)
+    "primary results",   # posted primary outcome, no p-value
+    "publication",       # no posted primary outcome, but a linked publication
+    "stop reason",       # only a reason for stopping early
+    "none",
+)
+
+
+def evidence_tier(
+    n_primary_outcomes: int,
+    n_primary_p_values: int,
+    n_publications: int,
+    why_stopped: object,
+) -> str:
+    """Assign a trial the most structured source available for its efficacy outcome."""
+    if n_primary_outcomes > 0 and n_primary_p_values > 0:
+        return "primary analysis"
+    if n_primary_outcomes > 0:
+        return "primary results"
+    if n_publications > 0:
+        return "publication"
+    if isinstance(why_stopped, str) and why_stopped.strip():
+        return "stop reason"
+    return "none"
+
+
+def pull_ra_trial_evidence(engine: Engine) -> pd.DataFrame:
+    """Return, per eligible RA trial, counts of the outcome evidence AACT holds.
+
+    n_primary_outcomes:  primary outcomes with posted results
+    n_primary_p_values:  analyses of those outcomes that report a p-value
+    n_result_refs:       publications the sponsor linked as reporting results
+    n_derived_refs:      publications PubMed linked by NCT number; these can
+                         include secondary analyses, not only the main report
+    """
+    return query(engine, ELIGIBLE_CTE + """
+        , primary_outcomes AS (
+            SELECT o.nct_id,
+                   COUNT(DISTINCT o.id) AS n_primary_outcomes,
+                   COUNT(DISTINCT oa.id) FILTER (WHERE oa.p_value IS NOT NULL)
+                       AS n_primary_p_values
+            FROM ctgov.outcomes o
+            LEFT JOIN ctgov.outcome_analyses oa ON oa.outcome_id = o.id
+            WHERE UPPER(o.outcome_type) = 'PRIMARY'
+            GROUP BY o.nct_id
+        ),
+        refs AS (
+            SELECT nct_id,
+                   COUNT(DISTINCT pmid) FILTER (WHERE UPPER(reference_type) = 'RESULT')
+                       AS n_result_refs,
+                   COUNT(DISTINCT pmid) FILTER (WHERE UPPER(reference_type) = 'DERIVED')
+                       AS n_derived_refs
+            FROM ctgov.study_references
+            GROUP BY nct_id
+        )
+        SELECT e.nct_id,
+               COALESCE(p.n_primary_outcomes, 0) AS n_primary_outcomes,
+               COALESCE(p.n_primary_p_values, 0) AS n_primary_p_values,
+               COALESCE(r.n_result_refs, 0) AS n_result_refs,
+               COALESCE(r.n_derived_refs, 0) AS n_derived_refs
+        FROM eligible e
+        LEFT JOIN primary_outcomes p USING (nct_id)
+        LEFT JOIN refs r USING (nct_id)
+        ORDER BY e.nct_id
+    """)
+
+
+# --- Evidence for outcome labelling --------------------------------------------
+
+# AACT tables pulled per trial for an evidence packet. All columns are kept
+# (SELECT *), so a renamed column in AACT doesn't break the pull; the packet
+# builder picks the columns it needs.
+EVIDENCE_TABLES = (
+    "studies",
+    "brief_summaries",
+    "design_groups",
+    "design_group_interventions",
+    "interventions",
+    "design_outcomes",
+    "outcomes",
+    "result_groups",
+    "outcome_measurements",
+    "outcome_analyses",
+    "outcome_analysis_groups",
+    "study_references",
+)
+
+
+def pull_trial_evidence(engine: Engine, nct_ids: list[str]) -> dict[str, pd.DataFrame]:
+    """Return the AACT tables needed for evidence packets, filtered to `nct_ids`.
+
+    One DataFrame per table in EVIDENCE_TABLES, all rows for the given trials.
+    """
+    return {
+        table: query(
+            engine,
+            f"SELECT * FROM ctgov.{table} WHERE nct_id = ANY(:ids)",
+            params={"ids": list(nct_ids)},
+        )
+        for table in EVIDENCE_TABLES
+    }
