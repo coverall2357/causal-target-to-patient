@@ -1,43 +1,60 @@
-molecule_pref_name,category,reason
-METHOTREXATE,csDMARD,anchor therapy; ChEMBL target (DHFR) is not its accepted mechanism in RA
-HYDROXYCHLOROQUINE,csDMARD,diffuse or unclear mechanism
-SULFASALAZINE,csDMARD,diffuse or unclear mechanism
-LEFLUNOMIDE,csDMARD,conventional background therapy
-AZATHIOPRINE,csDMARD,diffuse mechanism
-CYCLOSPORINE,csDMARD,conventional background therapy
-AURANOFIN,csDMARD,diffuse or unclear mechanism
-FOLIC ACID,supportive,given with methotrexate
-LEUCOVORIN,supportive,given with methotrexate
-PREDNISONE,glucocorticoid,broad anti-inflammatory; not target-specific in RA
-PREDNISOLONE,glucocorticoid,broad anti-inflammatory; not target-specific in RA
-METHYLPREDNISOLONE,glucocorticoid,broad anti-inflammatory; not target-specific in RA
-DEXAMETHASONE,glucocorticoid,broad anti-inflammatory; not target-specific in RA
-HYDROCORTISONE,glucocorticoid,broad anti-inflammatory; not target-specific in RA
-ETORICOXIB,NSAID,symptomatic
-CELECOXIB,NSAID,symptomatic
-DICLOFENAC,NSAID,symptomatic
-NAPROXEN,NSAID,symptomatic
-IBUPROFEN,NSAID,symptomatic
-MELOXICAM,NSAID,symptomatic
-ACETAMINOPHEN,analgesic,symptomatic
-ESOMEPRAZOLE,gastroprotective,supportive
-FAMOTIDINE,gastroprotective,supportive
-RABEPRAZOLE,gastroprotective,supportive
-REBAMIPIDE,gastroprotective,supportive
-BUPRENORPHINE,analgesic,symptomatic
-TOZINAMERAN,vaccine,COVID-19 mRNA vaccine; not an RA therapy
-STREPTOCOCCUS PNEUMONIAE POLYSACCHARIDE CONJUGATED TO CORYNEBACTERIUM DIPHTHERIAE CRM197,vaccine,pneumococcal conjugate vaccine; not an RA therapy
-TETANUS TOXOID,vaccine,not an RA therapy
-TRAMADOL,analgesic,opioid analgesic; symptomatic
-MECLOFENAMIC ACID,NSAID,symptomatic
-PENICILLAMINE,csDMARD,older conventional DMARD; diffuse mechanism
-TRIENTINE,csDMARD,copper chelator; diffuse mechanism
-MINOCYCLINE,csDMARD,antibiotic used as a DMARD; antibacterial targets only
-NALTREXONE,supportive,low-dose naltrexone for pain or fatigue; symptomatic
-ESZOPICLONE,supportive,hypnotic for sleep; symptomatic
-ALFACALCIDOL,supportive,vitamin D analogue; bone health
-ELDECALCITOL,supportive,vitamin D analogue; bone health
-ERGOCALCIFEROL,supportive,vitamin D; bone health
-FILGRASTIM,supportive,G-CSF for neutropenia
-COBIPROSTONE,supportive,gastrointestinal protection
-ENTECAVIR,supportive,hepatitis B prophylaxis
+molecule_pref_name,category,reason,batch
+METHOTREXATE,csDMARD,anchor therapy; ChEMBL target (DHFR) is not its accepted mechanism in RA,2026-10-13-initial
+HYDROXYCHLOROQUINE,csDMARD,diffuse or unclear mechanism,2026-10-13-initial
+SULFASALAZINE,csDMARD,diffuse or unclear mechanism,2026-10-13-initial
+LEFLUNOMIDE,csDMARD,conventional background therapy,2026-10-13-initial
+AZATHIOPRINE,csDMARD,diffuse mechanism,2026-10-13-initial
+CYCLOSPORINE,csDMARD,conventional background therapy,2026-10-13-initial
+AURANOFIN,csDMARD,diffuse or unclear mechanism,2026-10-13-initial
+FOLIC ACID,supportive,given with methotrexate,2026-10-13-initial
+LEUCOVORIN,supportive,given with methotrexate,2026-10-13-initial
+PREDNISONE,glucocorticoid,broad anti-inflammatory; not target-specific in RA,2026-10-13-initial
+PREDNISOLONE,glucocorticoid,broad anti-inflammatory; not target-specific in RA,2026-10-13-initial
+METHYLPREDNISOLONE,glucocorticoid,broad anti-inflammatory; not target-specific in RA,2026-10-13-initial
+DEXAMETHASONE,glucocorticoid,broad anti-inflammatory; not target-specific in RA,2026-10-13-initial
+HYDROCORTISONE,glucocorticoid,broad anti-inflammatory; not target-specific in RA,2026-10-13-initial
+ETORICOXIB,NSAID,symptomatic,2026-10-13-initial
+CELECOXIB,NSAID,symptomatic,2026-10-13-initial
+DICLOFENAC,NSAID,symptomatic,2026-10-13-initial
+NAPROXEN,NSAID,symptomatic,2026-10-13-initial
+IBUPROFEN,NSAID,symptomatic,2026-10-13-initial
+MELOXICAM,NSAID,symptomatic,2026-10-13-initial
+ACETAMINOPHEN,analgesic,symptomatic,2026-10-13-initial
+ESOMEPRAZOLE,gastroprotective,supportive,2026-10-13-initial
+FAMOTIDINE,gastroprotective,supportive,2026-10-13-initial
+RABEPRAZOLE,gastroprotective,supportive,2026-10-13-initial
+REBAMIPIDE,gastroprotective,supportive,2026-10-13-initial
+BUPRENORPHINE,analgesic,symptomatic,2026-10-13-initial
+TOZINAMERAN,vaccine,COVID-19 mRNA vaccine; not an RA therapy,2026-10-13-initial
+STREPTOCOCCUS PNEUMONIAE POLYSACCHARIDE CONJUGATED TO CORYNEBACTERIUM DIPHTHERIAE CRM197,vaccine,pneumococcal conjugate vaccine; not an RA therapy,2026-10-13-initial
+TETANUS TOXOID,vaccine,not an RA therapy,2026-10-13-initial
+TRAMADOL,analgesic,opioid analgesic; symptomatic,2026-10-13-initial
+MECLOFENAMIC ACID,NSAID,symptomatic,2026-10-13-initial
+PENICILLAMINE,csDMARD,older conventional DMARD; diffuse mechanism,2026-10-13-initial
+TRIENTINE,csDMARD,copper chelator; diffuse mechanism,2026-10-13-initial
+MINOCYCLINE,csDMARD,antibiotic used as a DMARD; antibacterial targets only,2026-10-13-initial
+NALTREXONE,supportive,low-dose naltrexone for pain or fatigue; symptomatic,2026-10-13-initial
+ESZOPICLONE,supportive,hypnotic for sleep; symptomatic,2026-10-13-initial
+ALFACALCIDOL,supportive,vitamin D analogue; bone health,2026-10-13-initial
+ELDECALCITOL,supportive,vitamin D analogue; bone health,2026-10-13-initial
+ERGOCALCIFEROL,supportive,vitamin D; bone health,2026-10-13-initial
+FILGRASTIM,supportive,G-CSF for neutropenia,2026-10-13-initial
+COBIPROSTONE,supportive,gastrointestinal protection,2026-10-13-initial
+ENTECAVIR,supportive,hepatitis B prophylaxis,2026-10-13-initial
+CALCIUM,supportive,mineral supplement,2026-10-22-b1
+CALCIUM CARBONATE,supportive,mineral supplement,2026-10-22-b1
+CALCIUM CITRATE,supportive,mineral supplement,2026-10-22-b1
+ARGININE,supportive,amino-acid supplement,2026-10-22-b1
+LEVOCARNITINE,supportive,dietary supplement,2026-10-22-b1
+CARNITINE,supportive,dietary supplement,2026-10-22-b1
+RIBOFLAVIN,supportive,vitamin,2026-10-22-b1
+NIACINAMIDE,supportive,vitamin,2026-10-22-b1
+SODIUM BUTYRATE,supportive,dietary supplement,2026-10-22-b1
+SODIUM CHLORIDE,supportive,"saline, as vehicle or placebo",2026-10-22-b1
+OLIVE OIL,supportive,dietary supplement,2026-10-22-b1
+SILIBININ,supportive,herbal extract (silymarin),2026-10-22-b1
+PUERARIN,supportive,herbal extract,2026-10-22-b1
+EUPATILIN,gastroprotective,gastroprotective flavone,2026-10-22-b1
+PELUBIPROFEN,NSAID,symptomatic,2026-10-22-b1
+TECHNETIUM (99MTC) ETARFOLATIDE,imaging,imaging agent,2026-10-22-b1
+FAPI GA-68,imaging,imaging agent,2026-10-22-b1

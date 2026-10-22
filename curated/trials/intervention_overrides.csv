@@ -1,47 +1,51 @@
-intervention_name,maps_to,note
-mtx,methotrexate,abbreviation
-abp 501,adalimumab,Amgen adalimumab biosimilar; maps to the originator's target
-hlx01,rituximab,Henlius rituximab biosimilar; maps to the originator's target
-pn400 (vimovo),naproxen + esomeprazole,Vimovo fixed-dose combination
-pn 400 (vimovo),naproxen + esomeprazole,Vimovo fixed-dose combination
-tc 99m tilmanocept,EXCLUDE,imaging agent
-tc99m-tilmanocept,EXCLUDE,imaging agent
-23-valent pneumococcal polysaccharide vaccine,EXCLUDE,vaccine
-pneumococcal 13-valent conjugate vaccine (pcv-13),EXCLUDE,vaccine
-blood sample,EXCLUDE,procedure
-standard of care treatment,EXCLUDE,unspecified
-dmards,EXCLUDE,drug class
-dmard,EXCLUDE,drug class
-dmard therapy,EXCLUDE,drug class
-dmard maintenance,EXCLUDE,drug class
-csdmards,EXCLUDE,drug class
-disease-modifying anti-rheumatic drugs,EXCLUDE,drug class
-conventional synthetic antirheumatic drugs,EXCLUDE,drug class
-tnf inhibitor,EXCLUDE,drug class; no single molecule
-tnf inhibitors,EXCLUDE,drug class; no single molecule
-"mk0663, etoricoxib",etoricoxib,MK-0663 is etoricoxib's development code
-mr prednisone,prednisone,modified-release prednisone
-new formulation adalimumab,adalimumab,formulation study; same molecule
-"""baricitinib"", ""olumiant®""",baricitinib,brand name in quotes
-recombinant humanized anti-interleukin-6 receptor monoclonal antibody injection,tocilizumab,"unnamed anti-IL-6R antibody; mapped for its target (IL6R), not the specific molecule"
-buprenorphine transdermal patch,buprenorphine,analgesic; excluded via excluded_therapies
-folic/folinic acid,EXCLUDE,"supportive, given with methotrexate"
-disease-modifying antirheumatic drugs (dmards),EXCLUDE,drug class
-conventional dmards,EXCLUDE,drug class
-cdmard,EXCLUDE,drug class
-non-biologic dmards,EXCLUDE,drug class
-oral corticosteroids,EXCLUDE,drug class
-glucocorticoid,EXCLUDE,drug class
-active comparator,EXCLUDE,unspecified comparator
-seasonal influenza vaccine,EXCLUDE,vaccine
-kunxian capsule,EXCLUDE,herbal preparation; no defined molecular target
-rc18,telitacicept,RemeGen development code; https://clinicaltrials.gov/study/NCT02882087
-sm03,suciraslimab,SinoMab development code; https://www.medchemexpress.com/suciraslimab.html
-nnc109-0012,fletikumab,Novo Nordisk anti-IL-20; https://www.selleckchem.com/products/fletikumab-anti-il-20.html
-ap1189,resomelagon,SynAct development code; https://www.inderes.dk/en/releases/synact-pharma-introduces-resomelagon-as-generic-name-for-ap1189
-hzt-501,ibuprofen + famotidine,Horizon fixed-dose combination; https://clinicaltrials.gov/study/NCT00613106
-pred,prednisone,"ambiguous (prednisone or prednisolone); both excluded, so the outcome is the same"
-nc-503 (anti-amyloidotic (aa) agent),EXCLUDE,"eprodisate, treats AA amyloidosis not RA activity; https://clinicaltrials.gov/study/NCT00035334"
-nc-503,EXCLUDE,"eprodisate, treats AA amyloidosis not RA activity; https://clinicaltrials.gov/study/NCT00035334"
-mm-093,EXCLUDE,"recombinant alpha-fetoprotein, no defined molecular target; https://clinicaltrials.gov/study/NCT00105976"
-mk0812 / duration of treatment: 12 weeks,MK-0812,ChEMBL lists MK-0812 (CCR2 antagonist) with a phase 2 RA indication
+intervention_name,maps_to,note,source,source_type,confidence,batch
+mtx,methotrexate,abbreviation,,self-evident,high,2026-10-13-initial
+abp 501,adalimumab,Amgen adalimumab biosimilar; maps to the originator's target,,self-evident,high,2026-10-13-initial
+hlx01,rituximab,Henlius rituximab biosimilar; maps to the originator's target,,self-evident,high,2026-10-13-initial
+pn400 (vimovo),naproxen + esomeprazole,Vimovo fixed-dose combination,,self-evident,high,2026-10-13-initial
+pn 400 (vimovo),naproxen + esomeprazole,Vimovo fixed-dose combination,,self-evident,high,2026-10-13-initial
+tc 99m tilmanocept,EXCLUDE,imaging agent,,self-evident,high,2026-10-13-initial
+tc99m-tilmanocept,EXCLUDE,imaging agent,,self-evident,high,2026-10-13-initial
+23-valent pneumococcal polysaccharide vaccine,EXCLUDE,vaccine,,self-evident,high,2026-10-13-initial
+pneumococcal 13-valent conjugate vaccine (pcv-13),EXCLUDE,vaccine,,self-evident,high,2026-10-13-initial
+blood sample,EXCLUDE,procedure,,self-evident,high,2026-10-13-initial
+standard of care treatment,EXCLUDE,unspecified,,self-evident,high,2026-10-13-initial
+dmards,EXCLUDE,drug class,,self-evident,high,2026-10-13-initial
+dmard,EXCLUDE,drug class,,self-evident,high,2026-10-13-initial
+dmard therapy,EXCLUDE,drug class,,self-evident,high,2026-10-13-initial
+dmard maintenance,EXCLUDE,drug class,,self-evident,high,2026-10-13-initial
+csdmards,EXCLUDE,drug class,,self-evident,high,2026-10-13-initial
+disease-modifying anti-rheumatic drugs,EXCLUDE,drug class,,self-evident,high,2026-10-13-initial
+conventional synthetic antirheumatic drugs,EXCLUDE,drug class,,self-evident,high,2026-10-13-initial
+tnf inhibitor,EXCLUDE,drug class; no single molecule,,self-evident,high,2026-10-13-initial
+tnf inhibitors,EXCLUDE,drug class; no single molecule,,self-evident,high,2026-10-13-initial
+"mk0663, etoricoxib",etoricoxib,MK-0663 is etoricoxib's development code,,self-evident,high,2026-10-13-initial
+mr prednisone,prednisone,modified-release prednisone,,self-evident,high,2026-10-13-initial
+new formulation adalimumab,adalimumab,formulation study; same molecule,,self-evident,high,2026-10-13-initial
+"""baricitinib"", ""olumiant®""",baricitinib,brand name in quotes,,self-evident,high,2026-10-13-initial
+recombinant humanized anti-interleukin-6 receptor monoclonal antibody injection,tocilizumab,"unnamed anti-IL-6R antibody; mapped for its target (IL6R), not the specific molecule",,self-evident,high,2026-10-13-initial
+buprenorphine transdermal patch,buprenorphine,analgesic; excluded via excluded_therapies,,self-evident,high,2026-10-13-initial
+folic/folinic acid,EXCLUDE,"supportive, given with methotrexate",,self-evident,high,2026-10-13-initial
+disease-modifying antirheumatic drugs (dmards),EXCLUDE,drug class,,self-evident,high,2026-10-13-initial
+conventional dmards,EXCLUDE,drug class,,self-evident,high,2026-10-13-initial
+cdmard,EXCLUDE,drug class,,self-evident,high,2026-10-13-initial
+non-biologic dmards,EXCLUDE,drug class,,self-evident,high,2026-10-13-initial
+oral corticosteroids,EXCLUDE,drug class,,self-evident,high,2026-10-13-initial
+glucocorticoid,EXCLUDE,drug class,,self-evident,high,2026-10-13-initial
+active comparator,EXCLUDE,unspecified comparator,,self-evident,high,2026-10-13-initial
+seasonal influenza vaccine,EXCLUDE,vaccine,,self-evident,high,2026-10-13-initial
+kunxian capsule,EXCLUDE,herbal preparation; no defined molecular target,,self-evident,high,2026-10-13-initial
+rc18,telitacicept,RemeGen development code,https://clinicaltrials.gov/study/NCT02882087,trial_registry,high,2026-10-13-initial
+sm03,suciraslimab,SinoMab development code,https://www.medchemexpress.com/suciraslimab.html,vendor,high,2026-10-13-initial
+nnc109-0012,fletikumab,Novo Nordisk anti-IL-20,https://www.selleckchem.com/products/fletikumab-anti-il-20.html,vendor,high,2026-10-13-initial
+ap1189,resomelagon,SynAct development code,https://www.inderes.dk/en/releases/synact-pharma-introduces-resomelagon-as-generic-name-for-ap1189,company,high,2026-10-13-initial
+hzt-501,ibuprofen + famotidine,Horizon fixed-dose combination,https://clinicaltrials.gov/study/NCT00613106,trial_registry,high,2026-10-13-initial
+pred,prednisone,"ambiguous (prednisone or prednisolone); both excluded, so the outcome is the same",,self-evident,high,2026-10-13-initial
+nc-503 (anti-amyloidotic (aa) agent),EXCLUDE,"eprodisate, treats AA amyloidosis not RA activity",https://clinicaltrials.gov/study/NCT00035334,trial_registry,high,2026-10-13-initial
+nc-503,EXCLUDE,"eprodisate, treats AA amyloidosis not RA activity",https://clinicaltrials.gov/study/NCT00035334,trial_registry,high,2026-10-13-initial
+mm-093,EXCLUDE,"recombinant alpha-fetoprotein, no defined molecular target",https://clinicaltrials.gov/study/NCT00105976,trial_registry,high,2026-10-13-initial
+mk0812 / duration of treatment: 12 weeks,MK-0812,name cleaning: the code with trial-duration text removed; ChEMBL lists MK-0812 (CCR2 antagonist),,self-evident,high,2026-10-13-initial
+tasocitinib,tofacitinib,tasocitinib is tofacitinib's former INN,https://en.wikipedia.org/wiki/Tofacitinib,encyclopedia,high,2026-10-22-b1
+certolizumab,certolizumab pegol,ChEMBL's 'certolizumab' entry has no mechanism; the drug given is the pegylated product,,self-evident,high,2026-10-22-b1
+552-02,EXCLUDE,"trial NCT00852839 is in Sjogren's dry mouth, not RA",https://clinicaltrials.gov/study/NCT00852839,trial_registry,high,2026-10-22-b1
+ngx267,EXCLUDE,"trial NCT00637793 is in Sjogren's xerostomia, not RA",https://clinicaltrials.gov/study/NCT00637793,trial_registry,high,2026-10-22-b1

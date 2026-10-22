@@ -1,0 +1,5 @@
+name,reason,source,source_type,evidence,batch
+bevifimod,no single gene target: protein A binds VH3-family immunoglobulins on B cells,https://www.drugbank.ca/drugs/DB05947,drug_database,selectively modulating only the B-cells that are producing pathogenic auto-antibodies,2026-10-22-b1
+bezisterim,no defined target; only potential NF-kB and Treg effects are described,https://drugbank.ca/drugs/DB05212,drug_database,regulation of NF-kB and increasing the production of regulatory T cells,2026-10-22-b1
+ssr-150106,"target described only as chemokine receptors and TNF-alpha, without specifics",https://synapse.patsnap.com/drug/25edc978db7d4aefab61b5093aa4e848,drug_database,"CCRs antagonists(C-C chemokine receptors antagonists), TNF-α inhibitors",2026-10-22-b1
+2-(aminomethyl)phenol,non-protein mechanism: 2-HOBA scavenges reactive isolevuglandins,https://acrabstracts.org/abstract/scavenging-isolevuglandins-with-2-hoba-decreases-in-vitro-neutrophil-extracellular-traps-in-cells-from-patients-with-rheumatoid-arthritis/,conference_abstract,Scavenging isolevuglandins with 2-HOBA,2026-10-22-b1
