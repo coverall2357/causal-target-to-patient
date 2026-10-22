@@ -24,20 +24,43 @@ PREF_NAME_FIELD = "pref_name__iexact"
 _DOSE = re.compile(
     r"\s\d+(\.\d+)?\s*(mg/kg|mg|mcg|µg|ug|g|ml|iu|units?)\b.*$", re.IGNORECASE
 )
-# Trailing formulation and route words.
+# A dose at the start of a name: "50 mg etanercept" -> "etanercept".
+_LEADING_DOSE = re.compile(
+    r"^\d+(\.\d+)?\s*(mg/kg|mg|mcg|µg|ug|g|ml|iu|units?)\s+", re.IGNORECASE
+)
+# Dose levels named in words, and everything after: "yra-1909 low dose",
+# "gsk3196165 dose 2" -> the drug name.
+_DOSE_WORDS = re.compile(
+    r"\s((low|mid|middle|medium|high)[\s-]dose|dose\s*(level\s*)?\d+)\b.*$",
+    re.IGNORECASE,
+)
+# Trailing formulation, device, and route words, and everything after them.
 _FORMULATION = re.compile(
     r"\s(tablets?|capsules?|injection|infusion|oral|subcutaneous|intravenous|"
-    r"sc|iv|s\.c\.|i\.v\.)\b.*$",
+    r"sc|iv|s\.c\.|i\.v\.|pre-?filled|pfs|pens?|auto-?injectors?|syringes?|via)\b.*$",
+    re.IGNORECASE,
+)
+# Arm words, only at the very end: "etanercept treatment" -> "etanercept", but
+# "combined therapy of iguratimod" keeps its drug name.
+_TRAILING_WORDS = re.compile(r"(\s(treatment|therapy|administration|group))+$",
+                             re.IGNORECASE)
+# A component that is only a device or arm word, left over from splitting
+# "adalimumab pfs and pen".
+_DEVICE_ONLY = re.compile(
+    r"(pre-?filled\s*)?(syringes?|pens?|pfs|auto-?injectors?(\s+[a-z])?)"
+    r"|treatment|therapy|(low|mid|middle|medium|high)[\s-]dose",
     re.IGNORECASE,
 )
 _BRACKETED = re.compile(r"[\[(]([^\])]*)[\])]")
-# Combinations, and comma lists with a space ("mk0663, etoricoxib"); a comma
-# without a space is part of a code ("cp-690,550") and is left alone.
-_COMBINATION = re.compile(r"\s*\+\s*|\s+plus\s+|,\s+", re.IGNORECASE)
+# Combinations ("+", "plus", "and"), and comma lists with a space ("mk0663,
+# etoricoxib"); a comma without a space is part of a code ("cp-690,550").
+_COMBINATION = re.compile(r"\s*\+\s*|\s+plus\s+|\s+and\s+|,\s+", re.IGNORECASE)
 _SYMBOLS = re.compile(r"[®™©\"]")
 # Leading arm labels, regulatory qualifiers, and routes.
 _PREFIX = re.compile(
     r"^((active\s+)?comparator|experimental|control)\s*:\s*"
+    r"|^arm\s+\w+\s*:\s*"
+    r"|^(treatment|combination|combined\s+(therapy|treatment))\s+(of|with)\s+"
     r"|^(eu|us)[-\s](approved|licensed|sourced)\s+"
     r"|^(subcutaneous|intravenous|oral|sc|iv)\s+",
     re.IGNORECASE,
@@ -54,8 +77,11 @@ def _clean(text: str) -> str:
     while previous != text:  # prefixes can stack: "comparator: iv abatacept"
         previous = text
         text = _PREFIX.sub("", text.strip())
+    text = _LEADING_DOSE.sub("", text)
     text = _DOSE.sub("", text)
+    text = _DOSE_WORDS.sub("", text)
     text = _FORMULATION.sub("", text)
+    text = _TRAILING_WORDS.sub("", text)
     return re.sub(r"\s+", " ", text).strip(" -,;/")
 
 
@@ -65,6 +91,15 @@ def _usable_alternative(text: str) -> bool:
     Excludes route abbreviations ("sc", "iv") and labels like "(4)".
     """
     return len(text) >= 3 and bool(re.search(r"[a-z]", text))
+
+
+def _usable_component(text: str) -> bool:
+    """A searchable component: at least 3 letters or digits.
+
+    Drops fragments left by splitting ("a", "db") but keeps numeric
+    development codes ("552-02").
+    """
+    return len(re.sub(r"\W", "", text)) >= 3
 
 
 def _spellings(text: str) -> list[str]:
@@ -82,7 +117,8 @@ def name_variants(raw: str) -> list[list[str]]:
     A combination ("tocilizumab + methotrexate") gives one list per component.
     Bracketed or parenthesised text (brand names, abbreviations) is tried after
     the main name: "tocilizumab [roactemra/actemra]" -> tocilizumab, roactemra,
-    actemra.
+    actemra. A slash outside brackets also separates alternative names
+    ("mabthera/rituxan"); each is tried, so a slash never adds a component.
     """
     text = _SYMBOLS.sub("", raw.strip().lower())
     alternatives = [
@@ -95,9 +131,16 @@ def name_variants(raw: str) -> list[list[str]]:
     components = []
     for part in _COMBINATION.split(base):
         part = _clean(part)
-        if not part or _DOSE_ONLY.fullmatch(part):
-            continue
-        variants = _spellings(part)
+        if (not _usable_component(part) or _DOSE_ONLY.fullmatch(part)
+                or _DEVICE_ONLY.fullmatch(part)):
+            continue  # nothing searchable: a dose, a device word, or a fragment
+        first, *others = [_clean(n) for n in re.split(r"\s*/\s*", part)]
+        others = [n for n in others
+                  if _usable_alternative(n) and not _DEVICE_ONLY.fullmatch(n)]
+        keep_first = _usable_component(first) and not _DEVICE_ONLY.fullmatch(first)
+        names = ([first] if keep_first else []) + others
+        names = names or [part]
+        variants = [v for n in names for v in _spellings(n)]
         for alt in alternatives:
             variants += _spellings(alt)
         components.append(list(dict.fromkeys(variants)))

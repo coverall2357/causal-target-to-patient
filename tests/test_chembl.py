@@ -344,3 +344,54 @@ def test_trials_without_control(rows, controlled, expected_class, expected_targe
         rows["excluded_therapy"] = rows.intervention_key == "methotrexate"
     result = classify_target_contrast(rows, controlled_trials=controlled).iloc[0]
     assert (result.contrast_class, result.contrast_targets) == (expected_class, expected_targets)
+
+
+@pytest.mark.parametrize(
+    "raw, first_names",
+    [
+        # Dose levels in words.
+        ("GSK3196165 dose 2", ["gsk3196165"]),
+        ("YRA-1909 low dose", ["yra-1909"]),
+        ("TAS5315 High-dose", ["tas5315"]),
+        # Leading dose.
+        ("50 mg etanercept", ["etanercept"]),
+        # Devices and arm words.
+        ("Tabalumab prefilled syringe", ["tabalumab"]),
+        ("Etanercept pre-filled syringe subcutaneous injection", ["etanercept"]),
+        ("Etanercept / Autoinjector A", ["etanercept"]),
+        ("Metformin treatment", ["metformin"]),
+        ("MTX therapy", ["mtx"]),
+        # "and" separates components; device-only leftovers are dropped.
+        ("TAK-715 and methotrexate", ["tak-715", "methotrexate"]),
+        ("Adalimumab PFS and Pen", ["adalimumab"]),
+        ("Etanercept via autoinjector A", ["etanercept"]),
+        # Arm and treatment prefixes.
+        ("Arm B: Rituxan/MabThera", ["rituxan"]),
+        ("Treatment of MTX and HCQ", ["mtx", "hcq"]),
+        ("Combined therapy of iguratimod and tofacitinib", ["iguratimod", "tofacitinib"]),
+        # Fragments left by splitting are dropped.
+        ("Drug A and B", ["drug a"]),
+    ],
+)
+def test_name_variants_cleanup(raw, first_names):
+    assert [c[0] for c in name_variants(raw)] == first_names
+
+
+def test_slash_alternatives_must_be_names():
+    (component,) = name_variants("ortho-novum 1/35")
+    assert "35" not in component      # a number after a slash is not a name
+
+
+def test_slash_gives_alternatives_not_components():
+    (component,) = name_variants("MabThera/Rituxan")
+    assert component[0] == "mabthera" and "rituxan" in component
+    (component,) = name_variants("ibuprofen/famotidine")
+    assert component[0] == "ibuprofen" and "famotidine" in component
+
+
+def test_cleanup_leaves_real_names_alone():
+    # Words containing the device and dose terms are not cut.
+    assert name_variants("Pentoxifylline")[0][0] == "pentoxifylline"
+    assert name_variants("Penicillamine")[0][0] == "penicillamine"
+    assert name_variants("Tofacitinib 5 mg BID")[0][0] == "tofacitinib"
+    assert name_variants("552-02")[0][0] == "552-02"   # numeric development code
