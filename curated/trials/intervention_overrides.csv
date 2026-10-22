@@ -49,3 +49,110 @@ tasocitinib,tofacitinib,tasocitinib is tofacitinib's former INN,https://en.wikip
 certolizumab,certolizumab pegol,ChEMBL's 'certolizumab' entry has no mechanism; the drug given is the pegylated product,,self-evident,high,2026-10-22-b1
 552-02,EXCLUDE,"trial NCT00852839 is in Sjogren's dry mouth, not RA",https://clinicaltrials.gov/study/NCT00852839,trial_registry,high,2026-10-22-b1
 ngx267,EXCLUDE,"trial NCT00637793 is in Sjogren's xerostomia, not RA",https://clinicaltrials.gov/study/NCT00637793,trial_registry,high,2026-10-22-b1
+aba,abatacept,abbreviation defined in NCT00095147 ('Abatacept (ABA)'),,self-evident,high,2026-10-22-b3
+mtx switched to aba,methotrexate + abatacept,arm label in NCT00095147: placebo patients switched to abatacept + MTX,,self-evident,high,2026-10-22-b3
+double-blind abatacept,abatacept,design label + drug name,,self-evident,high,2026-10-22-b3
+open-label abatacept,abatacept,design label + drug name,,self-evident,high,2026-10-22-b3
+drug: abatacept,abatacept,registry prefix 'Drug:' and quotes around the name,,self-evident,high,2026-10-22-b3
+double-blind adalimumab,adalimumab,design label + drug name,,self-evident,high,2026-10-22-b3
+open-label adalimumab,adalimumab,design label + drug name,,self-evident,high,2026-10-22-b3
+open-labeladalimumabrescue,adalimumab,design label run together with drug name and 'rescue',,self-evident,high,2026-10-22-b3
+administration of cimzia,certolizumab pegol,Cimzia is the brand name of certolizumab pegol,,self-evident,high,2026-10-22-b3
+czp,certolizumab pegol,abbreviation; NCT01451203 tests CDP870 (certolizumab pegol),,self-evident,high,2026-10-22-b3
+enbrel liquid,etanercept,Enbrel is the brand name of etanercept; liquid formulation,,self-evident,high,2026-10-22-b3
+etanercept liquid,etanercept,formulation word after drug name,,self-evident,high,2026-10-22-b3
+drug: salirumab,sarilumab,misspelling of sarilumab with registry prefix,,self-evident,high,2026-10-22-b3
+drug: tocilizmab,tocilizumab,misspelling of tocilizumab with registry prefix,,self-evident,high,2026-10-22-b3
+drug: lw402,lw402,registry prefix 'Drug:' removed; LW402 has a manual mechanism,,self-evident,high,2026-10-22-b3
+secukinmab,secukinumab,misspelling of secukinumab (NCT00928512 tests AIN457 = secukinumab),,self-evident,high,2026-10-22-b3
+ocrelizumabu,ocrelizumab,misspelling of ocrelizumab,,self-evident,high,2026-10-22-b3
+methylprednisone,methylprednisolone,misspelling of methylprednisolone,,self-evident,high,2026-10-22-b3
+solumedrol,methylprednisolone,Solu-Medrol is a brand of methylprednisolone,,self-evident,high,2026-10-22-b3
+meloxicam ampoule,meloxicam,formulation word after drug name,,self-evident,high,2026-10-22-b3
+hydrocodone er,hydrocodone,ER = extended release,,self-evident,high,2026-10-22-b3
+rosiglitazone xr,rosiglitazone,XR = extended release,,self-evident,high,2026-10-22-b3
+infliximab increased dose,infliximab,dosing-strategy arm label,,self-evident,high,2026-10-22-b3
+infliximab increased frequency,infliximab,dosing-strategy arm label,,self-evident,high,2026-10-22-b3
+atacicept: with loading dose,atacicept,dosing label after drug name,,self-evident,high,2026-10-22-b3
+baminercept alfa 1,baminercept,dose-level label after drug name,,self-evident,high,2026-10-22-b3
+baminercept alfa 2,baminercept,dose-level label after drug name,,self-evident,high,2026-10-22-b3
+baminercept alfa 3,baminercept,dose-level label after drug name,,self-evident,high,2026-10-22-b3
+baminercept alfa 4,baminercept,dose-level label after drug name,,self-evident,high,2026-10-22-b3
+baminercept alfa 5,baminercept,dose-level label after drug name,,self-evident,high,2026-10-22-b3
+methotrexate - delay,methotrexate,strategy label after drug name,,self-evident,high,2026-10-22-b3
+mtx-hold,methotrexate,abbreviation with strategy label,,self-evident,high,2026-10-22-b3
+mtx or mtx alone,methotrexate,abbreviation,,self-evident,high,2026-10-22-b3
+meth,methotrexate,abbreviation in NCT01724268 ('Pred + Meth' vs 'Anti TNF + Meth'); key currently occurs only in that trial,,self-evident,high,2026-10-22-b3
+long-circulating liposomal prednisolone,prednisolone,formulation words before drug name,,self-evident,high,2026-10-22-b3
+nanoparticulated rebamipide,rebamipide,formulation word before drug name,,self-evident,high,2026-10-22-b3
+micellar paclitaxel for,paclitaxel,"formulation words around drug name (Paxceed, micellar paclitaxel for injection)",,self-evident,high,2026-10-22-b3
+ld-aminopterin,aminopterin,LD = low dose,,self-evident,high,2026-10-22-b3
+leflunomide-sulfasalazine-hydroxychloroquine,leflunomide + sulfasalazine + hydroxychloroquine,hyphen-joined combination,,self-evident,high,2026-10-22-b3
+methotrexate-sulfasalazine-hydroxychloroquine,methotrexate + sulfasalazine + hydroxychloroquine,hyphen-joined combination,,self-evident,high,2026-10-22-b3
+prednisolone-dipyridamole,prednisolone + dipyridamole,hyphen-joined combination,,self-evident,high,2026-10-22-b3
+l-carnitine,levocarnitine,L-carnitine is levocarnitine,,self-evident,high,2026-10-22-b3
+acthar injectable product,corticotropin,Acthar Gel is repository corticotropin injection,,self-evident,high,2026-10-22-b3
+hril-2 active,hril-2,arm label 'active' removed; recombinant human IL-2 has a manual mechanism,,self-evident,high,2026-10-22-b3
+lnk01001 dose a,lnk01001,dose-level label removed; LNK01001 has a manual mechanism,,self-evident,high,2026-10-22-b3
+lnk01001 dose b,lnk01001,dose-level label removed; LNK01001 has a manual mechanism,,self-evident,high,2026-10-22-b3
+tnf kinoid,tnf-kinoid,spelling variant; TNF-kinoid has a manual mechanism,,self-evident,high,2026-10-22-b3
+tnfa kinoid,tnf-kinoid,spelling variant; TNF-kinoid has a manual mechanism,,self-evident,high,2026-10-22-b3
+ccx 354-c,ccx354-c,"spelling variant of CCX354-C, which ChEMBL lists (CCX354, CHEMBL4444976)",,self-evident,high,2026-10-22-b3
+ccx-354-c,ccx354-c,"spelling variant of CCX354-C, which ChEMBL lists (CCX354, CHEMBL4444976)",,self-evident,high,2026-10-22-b3
+m2591,evobrutinib,typo of M2951 (evobrutinib) in NCT03233230; other arms say M2951 and the title says evobrutinib,https://clinicaltrials.gov/study/NCT03233230,trial_registry,high,2026-10-22-b3
+umbilical cord-derived mesenchymal stromal cell (uc-msc) secretome,msc secretome,"was matched to solizmestrocel through ChEMBL synonym 'Uc-msc', but a secretome is not the cells; recorded as unmapped under 'msc secretome'",,self-evident,high,2026-10-22-b3
+messenchymal stem cell secretome,msc secretome,misspelling; MSC secretome recorded as unmapped,,self-evident,high,2026-10-22-b3
+pla,EXCLUDE,placebo abbreviation defined in NCT00095147 ('Placebo (PLA)'),,self-evident,high,2026-10-22-b3
+plaebo,EXCLUDE,misspelling of placebo,,self-evident,high,2026-10-22-b3
+open-label,EXCLUDE,"design label split from 'ABA, open-label (OL)'",,self-evident,high,2026-10-22-b3
+new formulation,EXCLUDE,"formulation label split from 'Adalimumab, new formulation'",,self-evident,high,2026-10-22-b3
+mek inhibitor,EXCLUDE,"class descriptor split from 'ARRY-438162, MEK inhibitor; oral'; ARRY-438162 itself maps to binimetinib",,self-evident,high,2026-10-22-b3
+e-device,EXCLUDE,"injection device, not a therapeutic",,self-evident,high,2026-10-22-b3
+blood samples,EXCLUDE,"procedure, not a therapeutic",,self-evident,high,2026-10-22-b3
+control,EXCLUDE,arm label,,self-evident,high,2026-10-22-b3
+standard,EXCLUDE,arm label ('standard treatment'),,self-evident,high,2026-10-22-b3
+concomitant,EXCLUDE,arm label ('Concomitant treatment'),,self-evident,high,2026-10-22-b3
+combination steroid,EXCLUDE,unspecified regimen label,,self-evident,high,2026-10-22-b3
+intraarticular,EXCLUDE,route label ('intraarticular injection'),,self-evident,high,2026-10-22-b3
+continue is,EXCLUDE,strategy label (continue immunosuppression),,self-evident,high,2026-10-22-b3
+withhold is,EXCLUDE,strategy label (withhold immunosuppression),,self-evident,high,2026-10-22-b3
+biologics,EXCLUDE,drug class,,self-evident,high,2026-10-22-b3
+csdmard,EXCLUDE,drug class,,self-evident,high,2026-10-22-b3
+anti-inflammatory drugs,EXCLUDE,drug class,,self-evident,high,2026-10-22-b3
+non-steroidal anti-inflammatory drugs,EXCLUDE,drug class,,self-evident,high,2026-10-22-b3
+nonbiologic dmards of investigator's choice,EXCLUDE,drug class,,self-evident,high,2026-10-22-b3
+non-biologic disease modifying anti-rheumatic drug,EXCLUDE,drug class,,self-evident,high,2026-10-22-b3
+standard dmards,EXCLUDE,drug class,,self-evident,high,2026-10-22-b3
+janus kinase inhibitor,EXCLUDE,drug class,,self-evident,high,2026-10-22-b3
+anti-tumor necrosing factor,EXCLUDE,drug class,,self-evident,high,2026-10-22-b3
+adalimumab - gp2017,adalimumab,Sandoz adalimumab biosimilar; trial title compares GP2017 with Humira,https://clinicaltrials.gov/study/NCT02744755,trial_registry,high,2026-10-22-b3
+gp2013 - a proposed biosimilar rituximab,rituximab,"Sandoz rituximab biosimilar, named so in the intervention",https://clinicaltrials.gov/study/NCT02514772,trial_registry,high,2026-10-22-b3
+avt05,golimumab,Alvotech golimumab biosimilar,https://clinicaltrials.gov/study/NCT05842213,trial_registry,high,2026-10-22-b3
+ct-p47,tocilizumab,Celltrion tocilizumab biosimilar; title compares CT-P47 with RoActemra,https://clinicaltrials.gov/study/NCT05489224,trial_registry,high,2026-10-22-b3
+bcd-055,infliximab,Biocad infliximab biosimilar; title compares BCD-055 with Remicade,https://clinicaltrials.gov/study/NCT02762838,trial_registry,high,2026-10-22-b3
+lbal,adalimumab,LG Life Sciences adalimumab biosimilar; title compares LBAL with Humira,https://clinicaltrials.gov/study/NCT02746380,trial_registry,high,2026-10-22-b3
+drl_ri,rituximab,Dr. Reddy's rituximab; NCT04268771 title 'DRL Rituximab',https://clinicaltrials.gov/study/NCT04268771,trial_registry,high,2026-10-22-b3
+complarate,tocilizumab,Generium tocilizumab biosimilar,https://clinicaltrials.gov/study/NCT06475508,trial_registry,high,2026-10-22-b3
+mb04,etanercept,mAbxience etanercept biosimilar,https://clinicaltrials.gov/study/NCT06596772,trial_registry,high,2026-10-22-b3
+acellbia,rituximab,Biocad rituximab (BCD-020),https://gabionline.net/biosimilars/news/Rituximab-non-originator-biological-approved-in-Russia,news,high,2026-10-22-b3
+cmab008,infliximab,Mabpharm infliximab 'biobetter',https://www.centerforbiosimilars.com/view/mabpharm-raises-the-stakes-in-infliximab-market-with-a-biobetter-approval,news,high,2026-10-22-b3
+gb242,infliximab,Genor infliximab biosimilar referencing Remicade,https://centerforbiosimilars.com/view/phase-1-study-of-proposed-infliximab-biosimilar-shows-high-pk-similarity-to-remicade,news,high,2026-10-22-b3
+enia11,etanercept,"Mycenax TuNEX (ENIA11), an etanercept biosimilar",https://gabionline.net/biosimilars/general/biosimilars-of-etanercept,news,high,2026-10-22-b3
+fbl-mtx,methotrexate,SOLFARCOS folate-targeted liposomal methotrexate,https://www.portugalglobal.pt/en/news/2026/janeiro/portuguese-company-solfarcos-nears-an-innovative-treatment,news,high,2026-10-22-b3
+ihl-675a,cannabidiol + hydroxychloroquine,Incannex fixed-dose combination,https://edisongroup.com/research/on-to-phase-ii-for-ihl-675a/32269,news,high,2026-10-22-b3
+crx-102,prednisolone + dipyridamole,Zalicus combination (Synavive),https://ard.bmj.com/content/67/7/942,paper,high,2026-10-22-b3
+z102,prednisolone + dipyridamole,EU CTR lists Z102 capsules as prednisolone 2.7 mg + dipyridamole,https://www.clinicaltrialsregister.eu/ctr-search/trial/2011-002392-41/HU,trial_registry,high,2026-10-22-b3
+ts-152,ozoralizumab,jRCT gives ozoralizumab as the INN of TS-152,https://jrct.mhlw.go.jp/en-latest-detail/jRCT2080223973,trial_registry,high,2026-10-22-b3
+rob 803,rabeximod,DrugMAP lists Rob-803 as a synonym of rabeximod,https://drugmap.idrblab.net/data/drug/details/DMFPHYI,drug_database,medium,2026-10-22-b3
+erb-041 for 12 weeks,prinaberel,ERB-041 is prinaberel; duration text removed (read on an mdwiki mirror of Wikipedia),https://kiwix.lema.org/mdwiki_en_all_2024-03/A/Prinaberel,encyclopedia,high,2026-10-22-b3
+peg stnf-r1,pegsunercept,registry title names 'Pegsunercept (PEG sTNF-RI)',https://clinicaltrials.gov/study/NCT00111423,trial_registry,high,2026-10-22-b3
+gs-9876,lanraplenib,vendor lists lanraplenib as GS-9876,https://cenmed.com/lanraplenib-gs-9876-c09-0935-983,vendor,medium,2026-10-22-b3
+r788,fostamatinib,ChEMBL synonym R-788 (CHEMBL2103830); lookup missed the hyphen,https://www.ebi.ac.uk/chembl/compound_report_card/CHEMBL2103830/,drug_database,high,2026-10-22-b3
+bt061,tregalizumab,ChEMBL synonym BT-061 (CHEMBL1743083); lookup missed the hyphen,https://www.ebi.ac.uk/chembl/compound_report_card/CHEMBL1743083/,drug_database,high,2026-10-22-b3
+jnj 38518168,toreforant,ChEMBL synonym JNJ-38518168 (CHEMBL3301609),https://www.ebi.ac.uk/chembl/compound_report_card/CHEMBL3301609/,drug_database,high,2026-10-22-b3
+vib4920 with tnfi,dazodalibep,ChEMBL synonym VIB4920 (CHEMBL4594331); arm label removed,https://www.ebi.ac.uk/chembl/compound_report_card/CHEMBL4594331/,drug_database,high,2026-10-22-b3
+vib4920 without tnfi,dazodalibep,ChEMBL synonym VIB4920 (CHEMBL4594331); arm label removed,https://www.ebi.ac.uk/chembl/compound_report_card/CHEMBL4594331/,drug_database,high,2026-10-22-b3
+bibr 796 bs,doramapimod,typo of BIRB 796 BS (trial title); ChEMBL synonym BIRB-796 (CHEMBL103667),https://www.ebi.ac.uk/chembl/compound_report_card/CHEMBL103667/,drug_database,high,2026-10-22-b3
+part a,ofatumumab,NCT00291928 ('HuMax-CD20 in Active RA') names its arms Part A and Part B; ChEMBL synonym HuMax-CD20 (CHEMBL1201836). Key currently occurs only in that trial,https://www.ebi.ac.uk/chembl/compound_report_card/CHEMBL1201836/,drug_database,high,2026-10-22-b3
+part b,ofatumumab,as for 'part a',https://www.ebi.ac.uk/chembl/compound_report_card/CHEMBL1201836/,drug_database,high,2026-10-22-b3
+adl5859,EXCLUDE,"delta-opioid receptor agonist analgesic tested for RA pain (NCT00626275); symptomatic therapy, treated like the analgesics in excluded_therapies.csv",https://en.wikipedia.org/wiki/ADL-5859,encyclopedia,high,2026-10-22-b3
