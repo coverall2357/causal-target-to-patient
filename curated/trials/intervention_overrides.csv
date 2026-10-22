@@ -34,7 +34,6 @@ oral corticosteroids,EXCLUDE,drug class,,self-evident,high,2026-10-13-initial
 glucocorticoid,EXCLUDE,drug class,,self-evident,high,2026-10-13-initial
 active comparator,EXCLUDE,unspecified comparator,,self-evident,high,2026-10-13-initial
 seasonal influenza vaccine,EXCLUDE,vaccine,,self-evident,high,2026-10-13-initial
-kunxian capsule,EXCLUDE,herbal preparation; no defined molecular target,,self-evident,high,2026-10-13-initial
 rc18,telitacicept,RemeGen development code,https://clinicaltrials.gov/study/NCT02882087,trial_registry,high,2026-10-13-initial
 sm03,suciraslimab,SinoMab development code,https://www.medchemexpress.com/suciraslimab.html,vendor,high,2026-10-13-initial
 nnc109-0012,fletikumab,Novo Nordisk anti-IL-20,https://www.selleckchem.com/products/fletikumab-anti-il-20.html,vendor,high,2026-10-13-initial
@@ -156,3 +155,4 @@ bibr 796 bs,doramapimod,typo of BIRB 796 BS (trial title); ChEMBL synonym BIRB-7
 part a,ofatumumab,NCT00291928 ('HuMax-CD20 in Active RA') names its arms Part A and Part B; ChEMBL synonym HuMax-CD20 (CHEMBL1201836). Key currently occurs only in that trial,https://www.ebi.ac.uk/chembl/compound_report_card/CHEMBL1201836/,drug_database,high,2026-10-22-b3
 part b,ofatumumab,as for 'part a',https://www.ebi.ac.uk/chembl/compound_report_card/CHEMBL1201836/,drug_database,high,2026-10-22-b3
 adl5859,EXCLUDE,"delta-opioid receptor agonist analgesic tested for RA pain (NCT00626275); symptomatic therapy, treated like the analgesics in excluded_therapies.csv",https://en.wikipedia.org/wiki/ADL-5859,encyclopedia,high,2026-10-22-b3
+combination fish oil,fish oil,"split from 'combination fish oil and borage seed oil'; ChEMBL lists fish oil (a supplement, no target)",,self-evident,high,2026-10-22-b4

@@ -59,3 +59,10 @@ PELUBIPROFEN,NSAID,symptomatic,2026-10-22-b1
 TECHNETIUM (99MTC) ETARFOLATIDE,imaging,imaging agent,2026-10-22-b1
 FAPI GA-68,imaging,imaging agent,2026-10-22-b1
 HYDROCODONE,analgesic,"symptomatic pain therapy, as for the other opioids already listed",2026-10-22-b3
+LOXOPROFEN,NSAID,"NSAID; symptomatic therapy, as for the NSAIDs already listed (found by the b3 rerun: COX mechanism, not excluded)",2026-10-22-b4
+ACECLOFENAC,NSAID,"NSAID; symptomatic therapy, as for the NSAIDs already listed (found by the b3 rerun: COX mechanism, not excluded)",2026-10-22-b4
+ASPIRIN,NSAID,"NSAID; symptomatic therapy, as for the NSAIDs already listed (found by the b3 rerun: COX mechanism, not excluded)",2026-10-22-b4
+LUMIRACOXIB,NSAID,"NSAID; symptomatic therapy, as for the NSAIDs already listed (found by the b3 rerun: COX mechanism, not excluded)",2026-10-22-b4
+VALDECOXIB,NSAID,"NSAID; symptomatic therapy, as for the NSAIDs already listed (found by the b3 rerun: COX mechanism, not excluded)",2026-10-22-b4
+GW-406381,NSAID,"NSAID; symptomatic therapy, as for the NSAIDs already listed (found by the b3 rerun: COX mechanism, not excluded)",2026-10-22-b4
+IGURATIMOD,csDMARD,"conventional DMARD in China and Japan, often background therapy; diffuse mechanism (ChEMBL lists MIF, TRAF3IP2 and COX-2)",2026-10-22-b4
