@@ -20,6 +20,7 @@ from pathlib import Path
 
 import pandas as pd
 
+from causal_target_to_patient.files import latest_dated, stamp_of
 from causal_target_to_patient.curation import curation_worklist
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -31,8 +32,8 @@ def main():
     parser.add_argument("--data-dir", type=Path, required=True)
     args = parser.parse_args()
 
-    source = sorted(args.data_dir.glob("ra_trial_contrasts_*.csv"))[-1]
-    stamp = source.stem.rsplit("_", 1)[-1]
+    source = latest_dated(args.data_dir, "ra_trial_contrasts")
+    stamp = stamp_of(source)
     read = lambda name: pd.read_csv(args.data_dir / f"{name}_{stamp}.csv")  # noqa: E731
     decided = set(pd.read_csv(DECISIONS).name) if DECISIONS.exists() else set()
 

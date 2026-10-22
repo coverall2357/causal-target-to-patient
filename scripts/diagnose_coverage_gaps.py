@@ -18,6 +18,7 @@ from pathlib import Path
 
 import pandas as pd
 
+from causal_target_to_patient.files import latest_dated, stamp_of
 from causal_target_to_patient.coverage import (
     REFERENCE_ONLY,
     diagnose,
@@ -31,27 +32,20 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 CURATED = REPO_ROOT / "curated" / "trials"
 
 
-def latest(data_dir: Path, prefix: str) -> Path:
-    files = sorted(data_dir.glob(f"{prefix}_*.csv"))
-    if not files:
-        raise FileNotFoundError(f"No {prefix}_*.csv in {data_dir}")
-    return files[-1]
-
-
 def main():
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--data-dir", type=Path, required=True)
     args = parser.parse_args()
     d = args.data_dir
 
-    coverage_path = latest(d, "mechanism_coverage")
-    stamp = coverage_path.stem.rsplit("_", 1)[-1]
+    coverage_path = latest_dated(d, "mechanism_coverage")
+    stamp = stamp_of(coverage_path)
     coverage = pd.read_csv(coverage_path)
     interventions = pd.read_csv(d / f"ra_interventions_{stamp}.csv")
     interventions["intervention_key"] = interventions.intervention_name.str.strip().str.lower()
     name_molecules = pd.read_csv(d / f"ra_name_molecules_{stamp}.csv")
     contrasts = pd.read_csv(d / f"ra_trial_contrasts_{stamp}.csv")
-    chembl = pd.read_csv(latest(d, "chembl_ra_indications"))
+    chembl = pd.read_csv(latest_dated(d, "chembl_ra_indications"))
     expected = pd.read_csv(CURATED / "expected_mechanisms.csv")
     groups = load_groups(pd.read_csv(CURATED / "mechanism_groups.csv"))
 

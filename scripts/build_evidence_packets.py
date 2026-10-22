@@ -23,6 +23,7 @@ from pathlib import Path
 import pandas as pd
 from dotenv import load_dotenv
 
+from causal_target_to_patient.files import latest_dated, stamp_of
 from causal_target_to_patient.labelling.packet import (
     build_packet,
     intervention_mapping,
@@ -42,8 +43,8 @@ def main():
     out_dir = args.out_dir or args.data_dir / "evidence"
     out_dir.mkdir(parents=True, exist_ok=True)
 
-    source = sorted(args.data_dir.glob("ra_trial_contrasts_*.csv"))[-1]
-    stamp = source.stem.rsplit("_", 1)[-1]
+    source = latest_dated(args.data_dir, "ra_trial_contrasts")
+    stamp = stamp_of(source)
     contrasts = pd.read_csv(source)
     interventions = pd.read_csv(args.data_dir / f"ra_interventions_{stamp}.csv")
     name_molecules = pd.read_csv(args.data_dir / f"ra_name_molecules_{stamp}.csv")

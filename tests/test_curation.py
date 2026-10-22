@@ -102,3 +102,15 @@ def test_curation_worklist():
     decided = curation_worklist(interventions, name_molecules, molecule_targets, contrasts,
                                 decided={"DRUG A"})
     assert list(decided["item"]) == ["code-9"]
+
+
+def test_check_excluded_trials():
+    from causal_target_to_patient.curation import check_excluded_trials
+
+    good = {"nct_id": "NCT00000001", "reason": "treats RA-ILD, not RA activity",
+            "source": "https://clinicaltrials.gov/study/NCT00000001",
+            "source_type": "trial_registry", "evidence": "Drug X in RA-ILD", "batch": "b2"}
+    assert check_excluded_trials(pd.DataFrame([good])) == []
+    bad = dict(good, nct_id="12345", evidence="")
+    problems = "\n".join(check_excluded_trials(pd.DataFrame([bad])))
+    assert "not an NCT number" in problems and "evidence is empty" in problems

@@ -18,6 +18,7 @@ from pathlib import Path
 
 import pandas as pd
 
+from causal_target_to_patient.files import latest_dated, stamp_of
 from causal_target_to_patient.sources.aact import (
     EVIDENCE_TIERS,
     evidence_tier,
@@ -39,8 +40,8 @@ def main():
     parser.add_argument("--data-dir", type=Path, required=True)
     args = parser.parse_args()
 
-    source = sorted(args.data_dir.glob("ra_trial_contrasts_*.csv"))[-1]
-    stamp = source.stem.rsplit("_", 1)[-1]
+    source = latest_dated(args.data_dir, "ra_trial_contrasts")
+    stamp = stamp_of(source)
     contrasts = pd.read_csv(source)
     trials = pd.read_csv(args.data_dir / f"ra_trials_{stamp}.csv",
                          usecols=["nct_id", "overall_status", "why_stopped",

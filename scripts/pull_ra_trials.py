@@ -2,7 +2,9 @@
 
 Writes two tables, dated with today's AACT snapshot (AACT refreshes daily):
     ra_trials_YYYYMMDD.csv         one row per eligible trial, with trial set,
-                                   arm counts, and review flag
+                                   conditions, arm counts, and review flag.
+                                   Trials in curated/trials/excluded_trials.csv
+                                   get trial_set "excluded" and their reason.
     ra_interventions_YYYYMMDD.csv  one row per drug or biologic intervention,
                                    with its role in the trial
                                    (arm_role keeps the role before fallback)
@@ -15,14 +17,21 @@ import argparse
 from datetime import date
 from pathlib import Path
 
+import pandas as pd
+
 from causal_target_to_patient.sources.aact import (
     apply_candidate_fallback,
+    apply_excluded_trials,
     flag_trials_for_review,
     get_engine,
     pull_ra_trial_arms,
     pull_ra_trial_interventions,
     pull_ra_trials,
 )
+
+
+EXCLUDED_TRIALS = (Path(__file__).resolve().parents[1]
+                   / "curated" / "trials" / "excluded_trials.csv")
 
 
 def main():
@@ -37,6 +46,12 @@ def main():
     arms = flag_trials_for_review(interventions, pull_ra_trial_arms(engine))
     trials = trials.merge(arms, on="nct_id", how="left")
     interventions = apply_candidate_fallback(interventions, arms)
+
+    excluded = pd.read_csv(EXCLUDED_TRIALS)
+    trials = apply_excluded_trials(trials, excluded)
+    missing = sorted(set(excluded.nct_id) - set(trials.nct_id))
+    print(f"Curated trial exclusions applied: {int(trials.exclusion_reason.notna().sum())}"
+          + (f"; not in this pull: {', '.join(missing)}" if missing else ""))
 
     print(f"Eligible trials: {len(trials)}\n")
     print("By trial set and phase:\n",

@@ -19,17 +19,40 @@ AACT_HOST = "aact-db.ctti-clinicaltrials.org"
 AACT_PORT = 5432
 AACT_DB = "aact"
 
-# Definition of an RA study, used throughout the trial universe. Two routes,
-# combined: the MeSH term AACT derives from each study's conditions (catches
-# synonyms), and a direct text match on the listed condition (catches studies
-# whose MeSH mapping is missing). Prepend to a query and select from `ra`.
-RA_STUDIES_CTE = """
-WITH ra AS (
+# Condition names that describe juvenile rather than adult arthritis
+# (PostgreSQL regex; \y is a word boundary).
+JUVENILE_SQL = r"(juvenile|childhood|pediatric|paediatric|\yjia\y|\yjra\y)"
+
+# Definition of an RA study, used throughout the trial universe. A trial is in
+# if 'Arthritis, Rheumatoid' is mapped directly from one of its listed
+# conditions (mesh_type 'mesh-list'), or a listed condition names adult RA in
+# words. Two exclusions:
+#   - MeSH ancestor matches: Sjogren's syndrome, Felty syndrome, adult-onset
+#     Still's disease, and rheumatoid vasculitis sit under 'Arthritis,
+#     Rheumatoid' in MeSH, so their trials carry it as an ancestor term only.
+#   - Juvenile-only trials: every condition naming arthritis is juvenile.
+# Checked with scripts/check_ra_definition.py (2026-10-22). Prepend to a query
+# and select from `ra`.
+RA_STUDIES_CTE = f"""
+WITH ra_candidates AS (
     SELECT nct_id FROM ctgov.browse_conditions
-    WHERE mesh_term = 'Arthritis, Rheumatoid'
+    WHERE mesh_term = 'Arthritis, Rheumatoid' AND LOWER(mesh_type) = 'mesh-list'
     UNION
     SELECT nct_id FROM ctgov.conditions
     WHERE downcase_name LIKE '%rheumatoid arthritis%'
+      AND downcase_name !~ '{JUVENILE_SQL}'
+),
+juvenile_only AS (
+    SELECT nct_id FROM ctgov.conditions
+    GROUP BY nct_id
+    HAVING BOOL_OR(downcase_name ~ '{JUVENILE_SQL}')
+       AND NOT BOOL_OR(downcase_name LIKE '%rheumatoid arthritis%'
+                       AND downcase_name !~ '{JUVENILE_SQL}')
+),
+ra AS (
+    SELECT nct_id FROM ra_candidates
+    EXCEPT
+    SELECT nct_id FROM juvenile_only
 )
 """
 
@@ -133,16 +156,27 @@ def assign_trial_set(phase: str, status: str) -> str:
 
 
 def pull_ra_trials(engine: Engine) -> pd.DataFrame:
-    """Return eligible RA trials, one row per trial, with their trial set."""
+    """Return eligible RA trials, one row per trial, with their trial set.
+
+    n_conditions and conditions (" | "-separated) record what the trial lists,
+    so trials covering several diseases can be recognised at labelling.
+    """
     trials = query(engine, ELIGIBLE_CTE + """
         SELECT s.nct_id, s.brief_title, s.phase, s.overall_status,
                s.why_stopped, s.start_date, s.completion_date, s.enrollment,
                s.results_first_submitted_date,
-               sp.name AS lead_sponsor, sp.agency_class AS sponsor_class
+               sp.name AS lead_sponsor, sp.agency_class AS sponsor_class,
+               c.n_conditions, c.conditions
         FROM eligible
         JOIN ctgov.studies s USING (nct_id)
         LEFT JOIN ctgov.sponsors sp
                ON sp.nct_id = s.nct_id AND sp.lead_or_collaborator ILIKE 'lead'
+        LEFT JOIN (
+            SELECT nct_id, COUNT(*) AS n_conditions,
+                   STRING_AGG(name, ' | ' ORDER BY name) AS conditions
+            FROM ctgov.conditions
+            GROUP BY nct_id
+        ) c ON c.nct_id = s.nct_id
         ORDER BY s.nct_id
     """)
     trials = trials.drop_duplicates(subset="nct_id")
@@ -176,6 +210,23 @@ def assign_intervention_role(
 
 # Normalised arm type, e.g. "Active Comparator" -> "ACTIVE_COMPARATOR".
 _ARM_TYPE_SQL = "UPPER(REPLACE(dg.group_type, ' ', '_'))"
+
+
+# Trial set for trials removed by curated/trials/excluded_trials.csv.
+EXCLUDED_TRIAL_SET = "excluded"
+
+
+def apply_excluded_trials(trials: pd.DataFrame, excluded: pd.DataFrame) -> pd.DataFrame:
+    """Move curated trial exclusions into their own trial set, keeping the reason.
+
+    `excluded` has columns nct_id and reason. Excluded trials stay in the table,
+    with trial_set "excluded" and the reason in exclusion_reason, so they are
+    recorded rather than silently dropped.
+    """
+    out = trials.copy()
+    out["exclusion_reason"] = out.nct_id.map(dict(zip(excluded.nct_id, excluded.reason)))
+    out.loc[out.exclusion_reason.notna(), "trial_set"] = EXCLUDED_TRIAL_SET
+    return out
 
 
 def pull_ra_trial_interventions(engine: Engine) -> pd.DataFrame:
@@ -378,3 +429,107 @@ def pull_trial_evidence(engine: Engine, nct_ids: list[str]) -> dict[str, pd.Data
         )
         for table in EVIDENCE_TABLES
     }
+
+
+# --- Checking the RA definition ------------------------------------------------
+
+# The original, broad definition (2026-10-09 to 2026-10-22), kept for the
+# diagnostic: any MeSH level, and any condition text naming RA.
+BROAD_RA_STUDIES_CTE = """
+WITH ra AS (
+    SELECT nct_id FROM ctgov.browse_conditions
+    WHERE mesh_term = 'Arthritis, Rheumatoid'
+    UNION
+    SELECT nct_id FROM ctgov.conditions
+    WHERE downcase_name LIKE '%rheumatoid arthritis%'
+)
+"""
+
+# Condition names describing juvenile arthritis rather than adult RA.
+_JUVENILE = re.compile(r"juvenile|childhood|pediatric|paediatric|\bjia\b|\bjra\b",
+                       re.IGNORECASE)
+
+
+def pull_ra_condition_matches(engine: Engine) -> pd.DataFrame:
+    """Return, per eligible trial, how it matched the RA definition, and its conditions.
+
+    Uses the original, broad RA definition (MeSH at any level, or any condition
+    text naming RA), so it shows what the current definition removes.
+
+    mesh_direct:   'Arthritis, Rheumatoid' is mapped directly from a listed condition
+    mesh_ancestor: 'Arthritis, Rheumatoid' appears only as an ancestor of a mapped
+                   term (Sjogren's syndrome, Felty syndrome, and others sit under it)
+    text_match:    a listed condition contains "rheumatoid arthritis"
+    text_adult:    as text_match, excluding juvenile, childhood, or pediatric names
+    conditions:    all listed conditions, " | "-separated; n_conditions counts them
+
+    AACT records the mapping type in browse_conditions.mesh_type. If the column
+    is absent, mesh_direct is True for every MeSH match and mesh_type_available
+    is False.
+    """
+    columns = set(query(engine, """
+        SELECT column_name FROM information_schema.columns
+        WHERE table_schema = 'ctgov' AND table_name = 'browse_conditions'
+    """).column_name)
+    has_type = "mesh_type" in columns
+    direct = "BOOL_OR(LOWER(mesh_type) = 'mesh-list')" if has_type else "TRUE"
+    ancestor = "BOOL_OR(LOWER(mesh_type) = 'mesh-ancestor')" if has_type else "FALSE"
+    broad = ELIGIBLE_CTE.replace(RA_STUDIES_CTE, BROAD_RA_STUDIES_CTE)
+    out = query(engine, broad + f"""
+        , ra_mesh AS (
+            SELECT nct_id, {direct} AS mesh_direct, {ancestor} AS mesh_ancestor
+            FROM ctgov.browse_conditions
+            WHERE mesh_term = 'Arthritis, Rheumatoid'
+            GROUP BY nct_id
+        ),
+        cond AS (
+            SELECT nct_id,
+                   STRING_AGG(name, ' | ' ORDER BY name) AS conditions,
+                   COUNT(*) AS n_conditions,
+                   BOOL_OR(downcase_name LIKE '%rheumatoid arthritis%') AS text_match,
+                   BOOL_OR(downcase_name LIKE '%rheumatoid arthritis%'
+                           AND downcase_name !~ '{JUVENILE_SQL}')
+                       AS text_adult
+            FROM ctgov.conditions
+            GROUP BY nct_id
+        )
+        SELECT e.nct_id,
+               COALESCE(m.mesh_direct, FALSE) AS mesh_direct,
+               COALESCE(m.mesh_ancestor, FALSE) AS mesh_ancestor,
+               COALESCE(c.text_match, FALSE) AS text_match,
+               COALESCE(c.text_adult, FALSE) AS text_adult,
+               COALESCE(c.n_conditions, 0) AS n_conditions,
+               c.conditions
+        FROM eligible e
+        LEFT JOIN ra_mesh m USING (nct_id)
+        LEFT JOIN cond c USING (nct_id)
+        ORDER BY e.nct_id
+    """)
+    out["mesh_type_available"] = has_type
+    return out
+
+
+def ra_match_route(mesh_direct: bool, mesh_ancestor: bool, text_match: bool,
+                   text_adult: bool) -> str:
+    """How a trial entered the RA definition, from the strongest route.
+
+    mesh_direct    RA is mapped from the trial's own conditions
+    text_adult     only the condition text names adult RA
+    text_juvenile  only the condition text names RA, and only as juvenile RA
+    mesh_ancestor  only via an ancestor term (e.g. Sjogren's syndrome)
+    none           no RA match (should not occur among eligible trials)
+    """
+    if mesh_direct:
+        return "mesh_direct"
+    if text_adult:
+        return "text_adult"
+    if text_match:
+        return "text_juvenile"
+    if mesh_ancestor:
+        return "mesh_ancestor"
+    return "none"
+
+
+def mentions_juvenile(conditions) -> bool:
+    """True if any listed condition names juvenile or pediatric arthritis."""
+    return isinstance(conditions, str) and bool(_JUVENILE.search(conditions))

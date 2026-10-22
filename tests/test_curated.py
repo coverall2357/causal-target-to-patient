@@ -10,6 +10,7 @@ import pandas as pd
 import pytest
 
 from causal_target_to_patient.curation import (
+    check_excluded_trials,
     check_exclusions,
     check_manual_mechanisms,
     check_no_conflicts,
@@ -26,6 +27,7 @@ FILES = {
     "manual_mechanisms.csv": check_manual_mechanisms,
     "intervention_overrides.csv": check_overrides,
     "excluded_therapies.csv": check_exclusions,
+    "excluded_trials.csv": check_excluded_trials,
     "unmapped_decisions.csv": check_unmapped_decisions,
 }
 

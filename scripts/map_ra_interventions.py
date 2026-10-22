@@ -24,6 +24,7 @@ from pathlib import Path
 
 import pandas as pd
 
+from causal_target_to_patient.files import latest_dated, stamp_of
 from causal_target_to_patient.sources.chembl import (
     apply_manual_mechanisms,
     ChemblClient,
@@ -46,8 +47,8 @@ def main():
     parser.add_argument("--data-dir", type=Path, required=True)
     args = parser.parse_args()
 
-    source = sorted(args.data_dir.glob("ra_interventions_*.csv"))[-1]
-    stamp = source.stem.rsplit("_", 1)[-1]
+    source = latest_dated(args.data_dir, "ra_interventions")
+    stamp = stamp_of(source)
     interventions = pd.read_csv(source)
     interventions["intervention_key"] = interventions.intervention_name.str.strip().str.lower()
     trials = pd.read_csv(args.data_dir / f"ra_trials_{stamp}.csv")

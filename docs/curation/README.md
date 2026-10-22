@@ -10,6 +10,7 @@ The mapping from trial interventions to targets is mostly automatic (ChEMBL), bu
 | `intervention_overrides.csv` | intervention name | Maps a trial's intervention name to a name to look up (aliases, development codes, brand names), or `EXCLUDE`s it (drug classes, procedures, non-RA trials). |
 | `excluded_therapies.csv` | molecule | Conventional and symptomatic therapies that are never counted as the thing a trial tests: csDMARDs, glucocorticoids, NSAIDs, supportive care. |
 | `unmapped_decisions.csv` | drug | Drugs deliberately left without a target, and why, so absence is a recorded decision rather than a gap. |
+| `excluded_trials.csv` | trial | Trials in RA patients that don't test RA disease activity (treating a complication such as interstitial lung disease, osteoporosis, or dry eye). `pull_ra_trials.py` gives them trial set `excluded`, with their reason. |
 
 `expected_mechanisms.csv` and `mechanism_groups.csv` are curated too, but they serve the coverage check and the mechanism grouping, and have their own provenance columns.
 
@@ -34,7 +35,7 @@ The mapping from trial interventions to targets is mostly automatic (ChEMBL), bu
 4. **Multiple targets.** One row per target: dual inhibitors, and antibody-drug conjugates (antibody target plus payload target).
 5. **Code-to-name links.** When a source uses a development code, confirm the code belongs to the drug through ChEMBL's synonyms, and say so in `notes`.
 6. **Source preference.** In order: paper, trial registry, or company; then review, conference abstract, or news; then drug or target database; then vendor. Use the best source found, and let `confidence` reflect what it is.
-7. **Non-RA trials.** An intervention whose only trial is in another disease is `EXCLUDE`d in `intervention_overrides.csv`, with the trial as the source.
+7. **Trials outside RA.** Trials in other diseases are removed by the RA definition in `sources/aact.py` (`RA_STUDIES_CTE`), not by curation. Trials in RA patients that target a complication rather than RA disease activity go in `excluded_trials.csv`. (Batch 2026-10-22-b1 excluded two drugs, 552-02 and NGX267, whose only trials were in Sjögren's; the definition fix in batch b2 now removes those trials, and the two overrides are kept but redundant.)
 8. **LLM assistance.** Research may be done with an LLM (Claude). Every row is checked against its cited source and accepted by a human curator before it is added, and each batch log records this.
 
 ## Workflow for a batch

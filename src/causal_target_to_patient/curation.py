@@ -150,6 +150,29 @@ def check_unmapped_decisions(df: pd.DataFrame, file: str = "unmapped_decisions.c
     return problems + _row_problems(df, file, "name", check) + _duplicates(df, file, ("name",))
 
 
+TRIAL_EXCLUSION_COLUMNS = ("nct_id", "reason", "source", "source_type", "evidence", "batch")
+
+
+def check_excluded_trials(df: pd.DataFrame, file: str = "excluded_trials.csv") -> list[str]:
+    """A trial exclusion needs an NCT ID, a reason, a URL source, evidence, and a batch."""
+    problems = _missing_columns(df, file, TRIAL_EXCLUSION_COLUMNS)
+    if problems:
+        return problems
+
+    def check(r):
+        for col in ("reason", "evidence", "batch"):
+            if _blank(r[col]):
+                yield f"{col} is empty"
+        if _blank(r["nct_id"]) or not str(r["nct_id"]).startswith("NCT"):
+            yield f"nct_id not an NCT number: {r['nct_id']!r}"
+        if not _is_url(r["source"]):
+            yield "source is not a URL"
+        if r["source_type"] not in SOURCE_TYPES or r["source_type"] == "self-evident":
+            yield f"source_type not allowed: {r['source_type']!r}"
+
+    return problems + _row_problems(df, file, "nct_id", check) + _duplicates(df, file, ("nct_id",))
+
+
 def check_no_conflicts(manual: pd.DataFrame, decisions: pd.DataFrame) -> list[str]:
     """A drug can't be both given a mechanism and recorded as deliberately unmapped."""
     both = set(manual["name"].str.lower()) & set(decisions["name"].str.lower())
