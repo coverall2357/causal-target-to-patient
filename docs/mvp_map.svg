@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="672" viewBox="0 0 1400 672" role="img" aria-label="Funnel from 1,223 RA trials to 417 contrast tests">
+<rect width="1400" height="672" fill="#FFFFFF"/>
+<path d="M60,196 L921.45,196 L1340,290 L60,290 Z" fill="#EAF2F8"/>
+<path d="M60,380 L704.98,380 L1340,474 L60,474 Z" fill="#EAF2F8"/>
+<text x="60" y="130" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="17" font-weight="700" fill="#1F2933" text-anchor="start">1,223 RA interventional trials, by trial set</text>
+<rect x="60" y="146" width="861.45" height="46" rx="3" fill="#0072B2"/>
+<rect x="923.45" y="146" width="263.84" height="46" rx="3" fill="#9AA5B1"/>
+<rect x="1189.29" y="146" width="111.03" height="46" rx="3" fill="#BCC5CE"/>
+<rect x="1302.32" y="146" width="35.68" height="46" rx="3" fill="#D5DBE1"/>
+<text x="70" y="166" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="600" fill="#FFFFFF" text-anchor="start">Labelling: phase 1/2–3, finished</text>
+<text x="70" y="184" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="400" fill="#FFFFFF" text-anchor="start">825</text>
+<text x="933.45" y="166" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="600" fill="#1F2933" text-anchor="start">Context: phase 4</text>
+<text x="933.45" y="184" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="400" fill="#1F2933" text-anchor="start">254</text>
+<text x="1199.29" y="166" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="600" fill="#1F2933" text-anchor="start">Ongoing</text>
+<text x="1199.29" y="184" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="400" fill="#1F2933" text-anchor="start">108</text>
+<line x1="1320.16" y1="194" x2="1320.16" y2="203" stroke="#7B8794" stroke-width="1"/>
+<text x="1264.1" y="218" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="13" fill="#1F2933"><tspan font-weight="600">Excluded</tspan><tspan fill="#52606D"> 36</tspan></text>
+<text x="76" y="278" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="400" fill="#52606D" text-anchor="start">Only finished trials with a possible outcome go forward</text>
+<text x="60" y="314" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="17" font-weight="700" fill="#1F2933" text-anchor="start">825 labelling trials, by what they compare at the target level</text>
+<rect x="60" y="330" width="620.16" height="46" rx="3" fill="#0072B2"/>
+<rect x="682.16" y="330" width="22.82" height="46" rx="3" fill="#56B4E9"/>
+<rect x="706.98" y="330" width="264.86" height="46" rx="3" fill="#9AA5B1"/>
+<rect x="973.84" y="330" width="101.95" height="46" rx="3" fill="#BCC5CE"/>
+<rect x="1077.79" y="330" width="97.3" height="46" rx="3" fill="#D5DBE1"/>
+<rect x="1177.09" y="330" width="78.68" height="46" rx="3" fill="#E4E7EB"/>
+<rect x="1257.77" y="330" width="70.92" height="46" rx="3" fill="#EEF1F4"/>
+<rect x="1330.69" y="330" width="7.31" height="46" rx="3" fill="#F5F7FA"/>
+<text x="70" y="350" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="600" fill="#FFFFFF" text-anchor="start">Target contrast</text>
+<text x="70" y="368" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="400" fill="#FFFFFF" text-anchor="start">401</text>
+<text x="716.98" y="350" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="600" fill="#1F2933" text-anchor="start">Uncontrolled</text>
+<text x="716.98" y="368" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="400" fill="#1F2933" text-anchor="start">172</text>
+<text x="1087.79" y="350" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="600" fill="#1F2933" text-anchor="start">Same target</text>
+<text x="1087.79" y="368" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="400" fill="#1F2933" text-anchor="start">64</text>
+<text x="1187.09" y="350" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="600" fill="#1F2933" text-anchor="start">Unmapped</text>
+<text x="1187.09" y="368" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="400" fill="#1F2933" text-anchor="start">52</text>
+<line x1="1334.35" y1="378" x2="1334.35" y2="387" stroke="#7B8794" stroke-width="1"/>
+<text x="1277.9" y="402" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="13" fill="#1F2933"><tspan font-weight="600">No test</tspan><tspan fill="#52606D"> 6</tspan></text>
+<path d="M1293.23,378 V385 H1249.9 V387" fill="none" stroke="#7B8794" stroke-width="1"/>
+<text x="1110.1" y="402" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="13" fill="#1F2933"><tspan font-weight="600">Single intervention</tspan><tspan fill="#52606D"> 47</tspan></text>
+<line x1="1024.82" y1="378" x2="1024.82" y2="387" stroke="#7B8794" stroke-width="1"/>
+<text x="900.9" y="402" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="13" fill="#1F2933"><tspan font-weight="600">Conventional therapy only</tspan><tspan fill="#52606D"> 67</tspan></text>
+<line x1="693.57" y1="378" x2="693.57" y2="387" stroke="#7B8794" stroke-width="1"/>
+<text x="641.82" y="402" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="13" fill="#1F2933"><tspan font-weight="600">Head-to-head</tspan><tspan fill="#52606D"> 16</tspan></text>
+<text x="76" y="462" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="400" fill="#52606D" text-anchor="start">Only comparisons between different targets count as tests</text>
+<text x="60" y="498" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="17" font-weight="700" fill="#1F2933" text-anchor="start">417 contrast tests, by strongest outcome evidence</text>
+<text x="1340" y="498" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="14" font-weight="600" fill="#0072B2" text-anchor="end">136 targets (226 genes) tested</text>
+<rect x="60" y="514" width="455.36" height="46" rx="3" fill="#0B4F80"/>
+<rect x="517.36" y="514" width="277.33" height="46" rx="3" fill="#0072B2"/>
+<rect x="796.69" y="514" width="194.45" height="46" rx="3" fill="#5BA4D6"/>
+<rect x="993.14" y="514" width="44.04" height="46" rx="3" fill="#A9CFEA"/>
+<rect x="1039.18" y="514" width="298.82" height="46" rx="3" fill="#E4E7EB"/>
+<text x="70" y="534" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="600" fill="#FFFFFF" text-anchor="start">Primary analysis posted</text>
+<text x="70" y="552" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="400" fill="#FFFFFF" text-anchor="start">149</text>
+<text x="527.36" y="534" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="600" fill="#FFFFFF" text-anchor="start">Primary results posted</text>
+<text x="527.36" y="552" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="400" fill="#FFFFFF" text-anchor="start">91</text>
+<text x="806.69" y="534" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="600" fill="#1F2933" text-anchor="start">Publication</text>
+<text x="806.69" y="552" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="400" fill="#1F2933" text-anchor="start">64</text>
+<text x="1049.18" y="534" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="600" fill="#1F2933" text-anchor="start">No evidence yet</text>
+<text x="1049.18" y="552" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="400" fill="#1F2933" text-anchor="start">98</text>
+<line x1="1015.16" y1="562" x2="1015.16" y2="571" stroke="#7B8794" stroke-width="1"/>
+<text x="949.61" y="586" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="13" fill="#1F2933"><tspan font-weight="600">Stop reason only</tspan><tspan fill="#52606D"> 15</tspan></text>
+<text x="60" y="632" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="400" fill="#52606D" text-anchor="start">Sources: ClinicalTrials.gov via AACT (CTTI); ChEMBL (EMBL-EBI); curated decisions with cited sources in curated/trials/.</text>
+<text x="60" y="652" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="400" fill="#52606D" text-anchor="start">Pipeline outputs dated 2026-10-22. Data: data/ (CC BY-SA 4.0). Generated by docs/make_mvp_diagram.py from data/summary.json.</text>
+<text x="60" y="52" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="28" font-weight="700" fill="#1F2933" text-anchor="start">What has been tried in RA, against what?</text>
+<text x="60" y="82" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="15" font-weight="400" fill="#52606D" text-anchor="start">The RA trial-to-target map: every bar is to scale; shaded bands show what carries forward</text>
+</svg>

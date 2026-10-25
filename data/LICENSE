@@ -1,0 +1,16 @@
+The data files in this folder (ra_trials.csv, ra_trial_targets.csv and
+summary.json) are licensed under the Creative Commons Attribution-ShareAlike
+4.0 International License (CC BY-SA 4.0).
+
+Copyright (c) 2026 Chris Overall
+
+Legal code: https://creativecommons.org/licenses/by-sa/4.0/legalcode
+Summary:    https://creativecommons.org/licenses/by-sa/4.0/
+
+The data is derived from ClinicalTrials.gov (U.S. National Library of
+Medicine), accessed through AACT (Clinical Trials Transformation Initiative),
+and from ChEMBL (EMBL-EBI), which is licensed under CC BY-SA 3.0. The
+attribution and citation details are in README.md in this folder.
+
+The code in the rest of this repository is licensed separately, under the MIT
+License (see ../LICENSE).

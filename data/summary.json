@@ -1,0 +1,36 @@
+{
+  "source_stamp": "20261022",
+  "trials": 1223,
+  "by_trial_set": {
+    "labelling": 825,
+    "context": 254,
+    "ongoing": 108,
+    "excluded": 36
+  },
+  "labelling_by_contrast_class": {
+    "target_contrast": 401,
+    "uncontrolled": 172,
+    "excluded_therapy": 67,
+    "same_target": 64,
+    "unmapped": 52,
+    "single_intervention": 47,
+    "head_to_head": 16,
+    "no_test": 6
+  },
+  "labelling_tests": 417,
+  "labelling_tests_by_class": {
+    "target_contrast": 401,
+    "head_to_head": 16
+  },
+  "labelling_tests_by_evidence_tier": {
+    "primary analysis": 149,
+    "none": 98,
+    "primary results": 91,
+    "publication": 64,
+    "stop reason": 15
+  },
+  "targets_tested": 136,
+  "genes_tested": 226,
+  "chembl_molecules_mapped": 211,
+  "curated_mechanism_rows": 134
+}
