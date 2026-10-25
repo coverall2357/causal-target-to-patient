@@ -403,6 +403,7 @@ def pull_ra_trial_evidence(engine: Engine) -> pd.DataFrame:
 EVIDENCE_TABLES = (
     "studies",
     "brief_summaries",
+    "eligibilities",
     "design_groups",
     "design_group_interventions",
     "interventions",

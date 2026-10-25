@@ -13,6 +13,8 @@ with the same date stamp. PubMed records are cached in <data-dir>/pubmed_cache.j
 Usage:
     python scripts/build_evidence_packets.py --data-dir ../causal-data/aact \
         --nct-ids NCT02889796 NCT03120949 NCT00106574 NCT01679951 NCT01430507
+    python scripts/build_evidence_packets.py --data-dir ../causal-data/aact \
+        --nct-file ../causal-data/aact/labels/dev_set_20261022.csv
 """
 
 import argparse
@@ -37,9 +39,14 @@ from causal_target_to_patient.sources.pubmed import PubmedClient
 def main():
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--data-dir", type=Path, required=True)
-    parser.add_argument("--nct-ids", nargs="+", required=True)
+    ids = parser.add_mutually_exclusive_group(required=True)
+    ids.add_argument("--nct-ids", nargs="+")
+    ids.add_argument("--nct-file", type=Path,
+                     help="CSV with an nct_id column, such as a dev or test set")
     parser.add_argument("--out-dir", type=Path)
     args = parser.parse_args()
+    nct_ids = (args.nct_ids if args.nct_ids
+               else pd.read_csv(args.nct_file)["nct_id"].tolist())
     out_dir = args.out_dir or args.data_dir / "evidence"
     out_dir.mkdir(parents=True, exist_ok=True)
 
@@ -49,9 +56,9 @@ def main():
     interventions = pd.read_csv(args.data_dir / f"ra_interventions_{stamp}.csv")
     name_molecules = pd.read_csv(args.data_dir / f"ra_name_molecules_{stamp}.csv")
     molecule_targets = pd.read_csv(args.data_dir / f"ra_molecule_targets_{stamp}.csv")
-    print(f"Mapping files: {stamp}. Trials: {len(args.nct_ids)}")
+    print(f"Mapping files: {stamp}. Trials: {len(nct_ids)}")
 
-    tables = pull_trial_evidence(get_engine(), args.nct_ids)
+    tables = pull_trial_evidence(get_engine(), nct_ids)
     print("AACT rows pulled:", {k: len(v) for k, v in tables.items()})
 
     refs = tables["study_references"]
@@ -63,7 +70,7 @@ def main():
     print(f"PubMed records: {len(abstracts)} of {len(set(pmids))} linked PMIDs")
 
     counts = []
-    for nct_id in args.nct_ids:
+    for nct_id in nct_ids:
         mapping = intervention_mapping(nct_id, interventions, name_molecules,
                                        molecule_targets, contrasts)
         packet = build_packet(nct_id, tables, mapping, abstracts)

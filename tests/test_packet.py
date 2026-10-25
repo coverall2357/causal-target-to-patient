@@ -24,6 +24,8 @@ def tables():
             "start_date": [pd.Timestamp("2015-03-01"), pd.NaT],
         }),
         "brief_summaries": pd.DataFrame({"nct_id": [NCT], "description": ["A trial."]}),
+        "eligibilities": pd.DataFrame({
+            "nct_id": [NCT], "criteria": ["Inclusion: inadequate response to MTX."]}),
         "design_groups": pd.DataFrame({
             "id": [1, 2], "nct_id": [NCT, NCT],
             "group_type": ["EXPERIMENTAL", "PLACEBO_COMPARATOR"],
@@ -171,3 +173,20 @@ def test_reference_without_pmid_renders():
         "citation": ["Conference abstract"]})
     md = render_markdown(build_packet(NCT, t))
     assert "### No PMID (RESULT)" in md and "PMID None" not in md
+
+
+def test_eligibility_criteria_included_and_capped():
+    from causal_target_to_patient.labelling import packet as packet_module
+
+    packet = build_packet(NCT, tables())
+    assert packet["eligibility_criteria"] == "Inclusion: inadequate response to MTX."
+    assert "## Eligibility criteria" in render_markdown(packet)
+    assert build_packet("NCT00000002", tables())["eligibility_criteria"] is None
+
+    t = tables()
+    n = packet_module.MAX_CRITERIA_CHARS + 10
+    t["eligibilities"] = pd.DataFrame({"nct_id": [NCT], "criteria": ["x" * n]})
+    capped = build_packet(NCT, t)["eligibility_criteria"]
+    assert capped.startswith("x" * packet_module.MAX_CRITERIA_CHARS)
+    assert capped.endswith(f"[truncated: showing the first "
+                           f"{packet_module.MAX_CRITERIA_CHARS} of {n} characters]")

@@ -1,8 +1,8 @@
 """Evidence packets for LLM outcome labelling.
 
 A packet holds everything the labeller may use for one trial: the registered
-design, the registered and posted primary outcomes, our intervention mapping,
-and the linked publications. The LLM receives the packet as JSON; a reviewer
+design and eligibility criteria, the registered and posted primary outcomes,
+our intervention mapping, and the linked publications. The LLM receives the packet as JSON; a reviewer
 reads the same packet rendered as markdown.
 """
 
@@ -38,6 +38,11 @@ ANALYSIS_COLUMNS = (
 # Posted measurements kept per outcome. Safety outcomes broken down by adverse-
 # event term can run to hundreds of rows, which would swamp the labeller.
 MAX_MEASUREMENTS = 60
+
+# Eligibility criteria kept per trial. They say who was enrolled (for example,
+# inadequate response to methotrexate or to TNF inhibitors), which the
+# population label needs; the full text can run to several thousand characters.
+MAX_CRITERIA_CHARS = 4000
 
 # Results publications first, then PubMed's NCT-number links, then background.
 REFERENCE_ORDER = {"RESULT": 0, "DERIVED": 1, "BACKGROUND": 2}
@@ -207,6 +212,7 @@ def build_packet(
     """Assemble the evidence packet for one trial from AACT tables and abstracts."""
     studies = _rows(tables, "studies", nct_id)
     summaries = _rows(tables, "brief_summaries", nct_id)
+    eligibility = _rows(tables, "eligibilities", nct_id)
     planned = _rows(tables, "design_outcomes", nct_id)
     if "outcome_type" in planned.columns:
         planned = planned[_is_primary(planned.outcome_type)]
@@ -215,12 +221,26 @@ def build_packet(
         "trial": _records(studies, TRIAL_COLUMNS)[0] if len(studies) else {"nct_id": nct_id},
         "summary": (_clean(summaries["description"].iloc[0])
                     if "description" in summaries.columns and len(summaries) else None),
+        "eligibility_criteria": _criteria(eligibility),
         "arms": _arms(tables, nct_id),
         "our_mapping": mapping or {},
         "planned_primary_outcomes": _records(planned, PLANNED_OUTCOME_COLUMNS),
         "posted_primary_results": _posted_primary_results(tables, nct_id),
         "publications": _publications(tables, nct_id, abstracts or {}),
     }
+
+
+def _criteria(eligibility: pd.DataFrame) -> str | None:
+    """The trial's eligibility criteria text, capped at MAX_CRITERIA_CHARS."""
+    if "criteria" not in eligibility.columns or not len(eligibility):
+        return None
+    text = _clean(eligibility["criteria"].iloc[0])
+    if not text:
+        return None
+    if len(text) > MAX_CRITERIA_CHARS:
+        text = (text[:MAX_CRITERIA_CHARS]
+                + f"\n[truncated: showing the first {MAX_CRITERIA_CHARS} of {len(text)} characters]")
+    return text
 
 
 def packet_counts(packet: dict) -> dict:
@@ -249,6 +269,8 @@ def render_markdown(packet: dict) -> str:
     lines += _fields(trial, skip=("nct_id", "brief_title")) + [""]
     if packet.get("summary"):
         lines += ["## Summary", "", packet["summary"], ""]
+    if packet.get("eligibility_criteria"):
+        lines += ["## Eligibility criteria", "", packet["eligibility_criteria"], ""]
 
     lines += ["## Arms", ""]
     for arm in packet["arms"]:
