@@ -91,6 +91,10 @@ python scripts/label_trials.py --data-dir $D --nct-ids NCT00413660
 
 No trial data is stored in this repository. AACT and ChEMBL are queried at run time, and responses are cached locally outside the repository.
 
+## How this was built
+
+Developed with AI assistance (Claude, Anthropic): code, literature and source research, and drafting. The author reviewed every curated mapping and exclusion against its cited source, decided every labelling rule, and labels trials by hand to evaluate the model. Per-batch detail is in [`docs/curation/`](docs/curation/); commits made with AI assistance carry an `Assisted-by` line.
+
 ## License
 
 MIT
