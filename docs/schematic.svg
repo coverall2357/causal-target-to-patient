@@ -1,0 +1,144 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1060" viewBox="0 0 1600 1060">
+<defs><marker id="head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#7B8794"/></marker></defs>
+<rect width="1600" height="1060" fill="#FFFFFF"/>
+<text x="40" y="52" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="28" font-weight="700" fill="#1F2933" text-anchor="start">From Target to Patient: conceptual schematic</text>
+<text x="40" y="82" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="15" font-weight="400" fill="#52606D" text-anchor="start">causal-target-to-patient · rheumatoid arthritis · models built from the literature with AI, tested against data · status as of 2026-10-25</text>
+<text x="210.0" y="124" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="700" fill="#52606D" text-anchor="middle" letter-spacing="1.5">SOURCES</text>
+<text x="680.0" y="124" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="700" fill="#52606D" text-anchor="middle" letter-spacing="1.5">MODELS AND LABELS</text>
+<text x="1247.0" y="124" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="700" fill="#52606D" text-anchor="middle" letter-spacing="1.5">TESTS AND BENCHMARK</text>
+<rect x="24" y="140" width="1552" height="236" rx="14" fill="#EAF2F8"/>
+<rect x="24" y="140" width="7" height="236" rx="3" fill="#0072B2"/>
+<text x="1556" y="162" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="12.5" font-weight="700" fill="#0072B2" text-anchor="end" letter-spacing="1.2">KOLLER LINK 1 · MECHANISM → TARGET</text>
+<rect x="24" y="392" width="1552" height="262" rx="14" fill="#E8F5F0"/>
+<rect x="24" y="392" width="7" height="262" rx="3" fill="#009E73"/>
+<text x="1556" y="414" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="12.5" font-weight="700" fill="#009E73" text-anchor="end" letter-spacing="1.2">KOLLER LINK 2 · TARGET → THERAPEUTIC</text>
+<rect x="24" y="670" width="1552" height="268" rx="14" fill="#F8EEF4"/>
+<rect x="24" y="670" width="7" height="268" rx="3" fill="#CC79A7"/>
+<text x="1556" y="692" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="12.5" font-weight="700" fill="#CC79A7" text-anchor="end" letter-spacing="1.2">KOLLER LINK 3 · THERAPEUTIC → PATIENT</text>
+<rect x="392" y="160" width="64" height="768" rx="12" fill="#FFFFFF" stroke="#9AA5B1" stroke-width="1.5"/>
+<text transform="translate(429.0,544) rotate(-90)" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="14" font-weight="700" fill="#52606D" text-anchor="middle" letter-spacing="1">LLM EXTRACTION · every claim quoted to its source · checked against hand labels</text>
+<rect x="50" y="172" width="320" height="186" rx="10" fill="#FFFFFF" stroke="#0072B2" stroke-width="2" stroke-dasharray="7 5"/>
+<rect x="299.2" y="182" width="60.8" height="20" rx="10" fill="#FFFFFF" stroke="#9AA5B1" stroke-width="1"/>
+<text x="329.6" y="196.5" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="10.5" font-weight="700" fill="#52606D" text-anchor="middle" letter-spacing="0.6">PLANNED</text>
+<text x="66" y="202" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="18.5" font-weight="700" fill="#1F2933" text-anchor="start">Corpus · layer 2</text>
+<text x="66" y="225" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="18.5" font-weight="700" fill="#1F2933" text-anchor="start">Mechanism literature</text>
+<text x="66" y="252.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="14.5" font-weight="400" fill="#1F2933" text-anchor="start">Open Targets text-mined evidence,</text>
+<text x="66" y="272.5" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="14.5" font-weight="400" fill="#1F2933" text-anchor="start">reviews and key primary papers,</text>
+<text x="66" y="293.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="14.5" font-weight="400" fill="#1F2933" text-anchor="start">capped per mechanism</text>
+<rect x="478" y="172" width="404" height="160" rx="10" fill="#FFFFFF" stroke="#0072B2" stroke-width="2" stroke-dasharray="7 5"/>
+<rect x="811.2" y="182" width="60.8" height="20" rx="10" fill="#FFFFFF" stroke="#9AA5B1" stroke-width="1"/>
+<text x="841.6" y="196.5" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="10.5" font-weight="700" fill="#52606D" text-anchor="middle" letter-spacing="0.6">PLANNED</text>
+<text x="494" y="202" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="18.5" font-weight="700" fill="#1F2933" text-anchor="start">Mechanism model</text>
+<text x="494" y="229.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="14.5" font-weight="400" fill="#1F2933" text-anchor="start">Evidence-tagged graph:</text>
+<text x="494" y="249.5" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="14.5" font-weight="400" fill="#1F2933" text-anchor="start">mechanism → target → RA,</text>
+<text x="494" y="270.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="14.5" font-weight="400" fill="#1F2933" text-anchor="start">each edge graded by evidence tier</text>
+<rect x="934" y="172" width="626" height="138" rx="10" fill="#FFFFFF" stroke="#0072B2" stroke-width="2" stroke-dasharray="7 5"/>
+<rect x="1489.2" y="182" width="60.8" height="20" rx="10" fill="#FFFFFF" stroke="#9AA5B1" stroke-width="1"/>
+<text x="1519.6" y="196.5" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="10.5" font-weight="700" fill="#52606D" text-anchor="middle" letter-spacing="0.6">PLANNED</text>
+<text x="950" y="202" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="18.5" font-weight="700" fill="#1F2933" text-anchor="start">Genetics</text>
+<text x="950" y="229.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="14.5" font-weight="400" fill="#1F2933" text-anchor="start">Mendelian randomization, colocalization,</text>
+<text x="950" y="249.5" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="14.5" font-weight="400" fill="#1F2933" text-anchor="start">phenome-wide scans (on-target safety)</text>
+<text x="950" y="296" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="13.5" font-weight="600" fill="#0072B2" text-anchor="start" font-style="italic">Tests the mechanism model's causal target → RA edges</text>
+<rect x="50" y="424" width="320" height="106" rx="10" fill="#FFFFFF" stroke="#009E73" stroke-width="2"/>
+<rect x="314.0" y="434" width="46.0" height="20" rx="10" fill="#1F2933"/>
+<text x="337.0" y="448.5" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="10.5" font-weight="700" fill="#FFFFFF" text-anchor="middle" letter-spacing="0.6">BUILT</text>
+<text x="66" y="454" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="18.5" font-weight="700" fill="#1F2933" text-anchor="start">Trial universe</text>
+<text x="66" y="481.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="14.5" font-weight="400" fill="#1F2933" text-anchor="start">AACT + ChEMBL: 1,223 RA trials →</text>
+<text x="66" y="501.5" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="14.5" font-weight="400" fill="#1F2933" text-anchor="start">417 controlled tests, mapped to targets</text>
+<rect x="50" y="548" width="320" height="96" rx="10" fill="#FFFFFF" stroke="#009E73" stroke-width="2"/>
+<rect x="262.2" y="558" width="97.8" height="20" rx="10" fill="#E69F00"/>
+<text x="311.1" y="572.5" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="10.5" font-weight="700" fill="#1F2933" text-anchor="middle" letter-spacing="0.6">PARTLY BUILT</text>
+<text x="66" y="578" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="18.5" font-weight="700" fill="#1F2933" text-anchor="start">Corpus · layer 1</text>
+<text x="66" y="605.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="14.5" font-weight="400" fill="#1F2933" text-anchor="start">Trial-linked publications:</text>
+<text x="66" y="625.5" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="14.5" font-weight="400" fill="#1F2933" text-anchor="start">AACT links + Europe PMC by NCT</text>
+<rect x="478" y="424" width="404" height="220" rx="10" fill="#FFFFFF" stroke="#009E73" stroke-width="2"/>
+<rect x="796.4" y="434" width="75.6" height="20" rx="10" fill="#E69F00"/>
+<text x="834.2" y="448.5" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="10.5" font-weight="700" fill="#1F2933" text-anchor="middle" letter-spacing="0.6">PROTOTYPE</text>
+<text x="494" y="454" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="18.5" font-weight="700" fill="#1F2933" text-anchor="start">Outcome labels</text>
+<text x="494" y="481.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="14.5" font-weight="400" fill="#1F2933" text-anchor="start">LLM reads each trial's evidence packet;</text>
+<text x="494" y="501.5" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="14.5" font-weight="400" fill="#1F2933" text-anchor="start">quotes checked against the packet;</text>
+<text x="494" y="522.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="14.5" font-weight="400" fill="#1F2933" text-anchor="start">scored against blind hand labels</text>
+<text x="494" y="542.5" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="14.5" font-weight="400" fill="#1F2933" text-anchor="start">Efficacy · effect size · enrolled population</text>
+<text x="494" y="563.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="14.5" font-weight="400" fill="#1F2933" text-anchor="start">Safety axis (later)</text>
+<rect x="934" y="424" width="626" height="220" rx="10" fill="#FFFFFF" stroke="#009E73" stroke-width="2" stroke-dasharray="7 5"/>
+<rect x="1489.2" y="434" width="60.8" height="20" rx="10" fill="#FFFFFF" stroke="#9AA5B1" stroke-width="1"/>
+<text x="1519.6" y="448.5" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="10.5" font-weight="700" fill="#52606D" text-anchor="middle" letter-spacing="0.6">PLANNED</text>
+<text x="950" y="454" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="18.5" font-weight="700" fill="#1F2933" text-anchor="start">Mechanism outcome table · benchmark</text>
+<text x="950" y="481.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="14.5" font-weight="400" fill="#1F2933" text-anchor="start">Trial results rolled up by mechanism and population.</text>
+<text x="950" y="501.5" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="14.5" font-weight="400" fill="#1F2933" text-anchor="start">Do the models predict which mechanisms succeeded,</text>
+<text x="950" y="522.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="14.5" font-weight="400" fill="#1F2933" text-anchor="start">failed, or worked only in some patients?</text>
+<text x="950" y="630" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="13.5" font-weight="600" fill="#009E73" text-anchor="start" font-style="italic">Scores the mechanism model and the mapping</text>
+<rect x="50" y="702" width="320" height="214" rx="10" fill="#FFFFFF" stroke="#CC79A7" stroke-width="2" stroke-dasharray="7 5"/>
+<rect x="299.2" y="712" width="60.8" height="20" rx="10" fill="#FFFFFF" stroke="#9AA5B1" stroke-width="1"/>
+<text x="329.6" y="726.5" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="10.5" font-weight="700" fill="#52606D" text-anchor="middle" letter-spacing="0.6">PLANNED</text>
+<text x="66" y="732" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="18.5" font-weight="700" fill="#1F2933" text-anchor="start">Corpus · layer 3</text>
+<text x="66" y="755" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="18.5" font-weight="700" fill="#1F2933" text-anchor="start">Patient &amp; pathotype</text>
+<text x="66" y="778" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="18.5" font-weight="700" fill="#1F2933" text-anchor="start">literature</text>
+<text x="66" y="805.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="14.5" font-weight="400" fill="#1F2933" text-anchor="start">Seed set (AMP, PEAC, R4RA, STRAP,</text>
+<text x="66" y="825.5" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="14.5" font-weight="400" fill="#1F2933" text-anchor="start">pathotype reviews) + citation</text>
+<text x="66" y="846.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="14.5" font-weight="400" fill="#1F2933" text-anchor="start">expansion</text>
+<rect x="478" y="702" width="190" height="214" rx="10" fill="#FFFFFF" stroke="#CC79A7" stroke-width="2" stroke-dasharray="7 5"/>
+<rect x="597.2" y="886" width="60.8" height="20" rx="10" fill="#FFFFFF" stroke="#9AA5B1" stroke-width="1"/>
+<text x="627.6" y="900.5" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="10.5" font-weight="700" fill="#52606D" text-anchor="middle" letter-spacing="0.6">PLANNED</text>
+<text x="494" y="732" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="18.5" font-weight="700" fill="#1F2933" text-anchor="start">Patient model</text>
+<text x="494" y="759.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="14.5" font-weight="400" fill="#1F2933" text-anchor="start">Subgroups, pathotypes,</text>
+<text x="494" y="779.5" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="14.5" font-weight="400" fill="#1F2933" text-anchor="start">effect modifiers, graded:</text>
+<text x="494" y="800.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="14.5" font-weight="400" fill="#1F2933" text-anchor="start">interaction test &gt;</text>
+<text x="494" y="820.5" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="14.5" font-weight="400" fill="#1F2933" text-anchor="start">post hoc subgroup &gt;</text>
+<text x="494" y="841.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="14.5" font-weight="400" fill="#1F2933" text-anchor="start">observational</text>
+<rect x="692" y="702" width="190" height="214" rx="10" fill="#FFFFFF" stroke="#CC79A7" stroke-width="2" stroke-dasharray="7 5"/>
+<rect x="811.2" y="712" width="60.8" height="20" rx="10" fill="#FFFFFF" stroke="#9AA5B1" stroke-width="1"/>
+<text x="841.6" y="726.5" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="10.5" font-weight="700" fill="#52606D" text-anchor="middle" letter-spacing="0.6">PLANNED</text>
+<text x="708" y="732" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="18.5" font-weight="700" fill="#1F2933" text-anchor="start">Mapping</text>
+<text x="708" y="759.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="14.5" font-weight="400" fill="#1F2933" text-anchor="start">Which mechanisms</text>
+<text x="708" y="779.5" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="14.5" font-weight="400" fill="#1F2933" text-anchor="start">matter in which</text>
+<text x="708" y="800.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="14.5" font-weight="400" fill="#1F2933" text-anchor="start">patients, so who</text>
+<text x="708" y="820.5" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="14.5" font-weight="400" fill="#1F2933" text-anchor="start">should respond to</text>
+<text x="708" y="841.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="14.5" font-weight="400" fill="#1F2933" text-anchor="start">what</text>
+<rect x="934" y="702" width="304" height="194" rx="10" fill="#FFFFFF" stroke="#CC79A7" stroke-width="2" stroke-dasharray="7 5"/>
+<rect x="1167.2" y="712" width="60.8" height="20" rx="10" fill="#FFFFFF" stroke="#9AA5B1" stroke-width="1"/>
+<text x="1197.6" y="726.5" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="10.5" font-weight="700" fill="#52606D" text-anchor="middle" letter-spacing="0.6">PLANNED</text>
+<text x="950" y="732" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="18.5" font-weight="700" fill="#1F2933" text-anchor="start">Biopsy cohorts</text>
+<text x="950" y="759.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="14.5" font-weight="400" fill="#1F2933" text-anchor="start">AMP/SDY998, PEAC, R4RA</text>
+<text x="950" y="779.5" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="14.5" font-weight="400" fill="#1F2933" text-anchor="start">Foundation model vs. PCA:</text>
+<text x="950" y="800.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="14.5" font-weight="400" fill="#1F2933" text-anchor="start">do embeddings recover the</text>
+<text x="950" y="820.5" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="14.5" font-weight="400" fill="#1F2933" text-anchor="start">literature's pathotypes?</text>
+<text x="950" y="882" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="13.5" font-weight="600" fill="#CC79A7" text-anchor="start" font-style="italic">Tests the patient model</text>
+<rect x="1256" y="702" width="304" height="194" rx="10" fill="#FFFFFF" stroke="#CC79A7" stroke-width="2" stroke-dasharray="7 5"/>
+<rect x="1489.2" y="712" width="60.8" height="20" rx="10" fill="#FFFFFF" stroke="#9AA5B1" stroke-width="1"/>
+<text x="1519.6" y="726.5" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="10.5" font-weight="700" fill="#52606D" text-anchor="middle" letter-spacing="0.6">PLANNED</text>
+<text x="1272" y="732" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="18.5" font-weight="700" fill="#1F2933" text-anchor="start">Stratified and</text>
+<text x="1272" y="755" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="18.5" font-weight="700" fill="#1F2933" text-anchor="start">subgroup trials</text>
+<text x="1272" y="782.0" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="14.5" font-weight="400" fill="#1F2933" text-anchor="start">R4RA, STRAP; subgroup results</text>
+<text x="1272" y="802.5" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="14.5" font-weight="400" fill="#1F2933" text-anchor="start">in the labelled trials</text>
+<text x="1272" y="882" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="13.5" font-weight="600" fill="#CC79A7" text-anchor="start" font-style="italic">Tests the mapping</text>
+<path d="M370,262 H475" fill="none" stroke="#7B8794" stroke-width="2.2" marker-end="url(#head)"/>
+<path d="M370,590 H475" fill="none" stroke="#7B8794" stroke-width="2.2" marker-end="url(#head)"/>
+<path d="M370,628 H466 V770 H475" fill="none" stroke="#7B8794" stroke-width="2.2" marker-end="url(#head)"/>
+<text x="58" y="664" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="12.5" font-weight="400" fill="#52606D" text-anchor="start" font-style="italic">subgroup claims ↘</text>
+<path d="M370,820 H475" fill="none" stroke="#7B8794" stroke-width="2.2" marker-end="url(#head)"/>
+<path d="M210,530 V546" fill="none" stroke="#7B8794" stroke-width="2.2" marker-end="url(#head)"/>
+<text x="222" y="541" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="12.5" font-weight="400" fill="#52606D" text-anchor="start" font-style="italic">anchors</text>
+<path d="M170,424 V360" fill="none" stroke="#7B8794" stroke-width="2.2" stroke-dasharray="6 5" marker-end="url(#head)"/>
+<text x="182" y="392" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="12.5" font-weight="400" fill="#52606D" text-anchor="start" font-style="italic">tested mechanisms set the scope</text>
+<path d="M668,808 H689" fill="none" stroke="#7B8794" stroke-width="2.2" marker-end="url(#head)"/>
+<path d="M882,280 H908 V760 H885" fill="none" stroke="#7B8794" stroke-width="2.2" marker-end="url(#head)"/>
+<text x="914" y="690" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="12.5" font-weight="400" fill="#52606D" text-anchor="start" font-style="italic">mechanisms</text>
+<path d="M882,534 H931" fill="none" stroke="#7B8794" stroke-width="2.2" marker-end="url(#head)"/>
+<path d="M882,321 H1054 V421" fill="none" stroke="#7B8794" stroke-width="2.2" marker-end="url(#head)"/>
+<text x="1066" y="368" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="12.5" font-weight="400" fill="#52606D" text-anchor="start" font-style="italic">predicts which mechanisms succeed</text>
+<path d="M787,916 V940 H1408.0 V899" fill="none" stroke="#7B8794" stroke-width="2.2" marker-end="url(#head)"/>
+<text x="974" y="956" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="12.5" font-weight="400" fill="#52606D" text-anchor="start" font-style="italic">predicts who responds to what</text>
+<path d="M934,230 H885" fill="none" stroke="#7B8794" stroke-width="2.2" marker-end="url(#head)"/>
+<text x="926" y="221" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="12.5" font-weight="400" fill="#52606D" text-anchor="end" font-style="italic">tests</text>
+<line x1="40" y1="990" x2="1560" y2="990" stroke="#D9E2EC" stroke-width="1.5"/>
+<text x="40" y="1022" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="14.5" font-weight="600" fill="#1F2933" text-anchor="start">Causal methods throughout: effect modification is not causation; named estimators; sensitivity analysis; evidence graded by design.</text>
+<rect x="1090" y="1008" width="46.0" height="20" rx="10" fill="#1F2933"/>
+<text x="1113.0" y="1022.5" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="10.5" font-weight="700" fill="#FFFFFF" text-anchor="middle" letter-spacing="0.6">BUILT</text>
+<rect x="1150.0" y="1008" width="75.6" height="20" rx="10" fill="#E69F00"/>
+<text x="1187.8" y="1022.5" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="10.5" font-weight="700" fill="#1F2933" text-anchor="middle" letter-spacing="0.6">PROTOTYPE</text>
+<rect x="1239.6" y="1008" width="60.8" height="20" rx="10" fill="#FFFFFF" stroke="#9AA5B1" stroke-width="1"/>
+<text x="1270.0" y="1022.5" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="10.5" font-weight="700" fill="#52606D" text-anchor="middle" letter-spacing="0.6">PLANNED</text>
+<rect x="1318.3999999999999" y="1006" width="40" height="24" rx="6" fill="none" stroke="#7B8794" stroke-width="2" stroke-dasharray="7 5"/>
+<text x="1366.4" y="1022.5" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="12.5" font-weight="400" fill="#52606D" text-anchor="start">dashed = not started</text>
+</svg>
